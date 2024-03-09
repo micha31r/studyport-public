@@ -1,5 +1,7 @@
 # Studyport
 
+![enter image description here](https://www.michaelren.dev/media-compressed/studyport/goals.jpg)
+
 ### About
 
 Studyport is a grade visualiser for NCEA students, previously called Insightz. This project has been the result of several years of work. I started working on this idea in year ten, but the face of the project has changed drastically over the years. This project was submitted for the Young Innovators Award, winning (senior) first place and the creativity category award. Further recognition followed at Q Awards (a high-school student design competition), where it received Gold for both the Community Good and Digital categories. While successful on many fronts, this project failed to take off. Below is the story of this project and what I learned from it.
@@ -28,9 +30,9 @@ Was all the effort worth it? I believe so. As a high school student, I gained va
 
 So, let the remains of the project serve as a personal milestone and a reminder of the long road ahead.
 
-![enter image description here](https://www.michaelren.dev/media-compressed/studyport/login.jpg)
-![enter image description here](https://www.michaelren.dev/media-compressed/studyport/ncea.jpg)
-![enter image description here](https://www.michaelren.dev/media-compressed/studyport/goals.jpg)
-![enter image description here](https://www.michaelren.dev/media-compressed/studyport/goals-create.jpg)
-![enter image description here](https://www.michaelren.dev/media-compressed/studyport/results.jpg)
-![enter image description here](https://www.michaelren.dev/media-compressed/studyport/progress.jpg)
+| ![enter image description here](https://www.michaelren.dev/media-compressed/studyport/login.jpg) | ![enter image description here](https://www.michaelren.dev/media-compressed/studyport/goals.jpg) |
+|--|--|
+| ![enter image description here](https://www.michaelren.dev/media-compressed/studyport/ncea.jpg) | ![enter image description here](https://www.michaelren.dev/media-compressed/studyport/progress.jpg) |--|--|
+| ![enter image description here](https://www.michaelren.dev/media-compressed/studyport/results.jpg) | ![enter image description here](https://www.michaelren.dev/media-compressed/studyport/goals-create.jpg) |
+
+
