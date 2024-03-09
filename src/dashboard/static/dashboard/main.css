@@ -1,0 +1,341 @@
+body {
+	background: var(--color-canvas-primary);
+}
+
+.dashboard {
+	display: grid;
+	grid-template-columns: 250px 1fr;
+}
+
+.dashboard * {
+	font-family: proxima-nova, sans-serif;
+	font-style: normal;
+	font-weight: 600;
+	overflow-wrap: break-word;
+}
+
+.dashboard > .overflow-container {
+	height: var(--app-height);
+	box-sizing: border-box;
+	overflow-y: auto;
+}
+
+/* Navigation */
+
+.dashboard .menu-overflow-container {
+	background: var(--color-canvas-primary);
+}
+
+.dashboard .menu {
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 15px 20px 20px;
+	gap: 40px;
+}
+
+.dashboard .menu .brand {
+	display: flex;
+	margin: 0 10px;
+}
+
+.dashboard .menu .brand svg {
+	width: auto;
+	height: 1.8em;
+	margin: auto 10px auto 0;
+}
+
+.dashboard .menu .brand span {
+	font-weight: bold;
+	color: var(--color-theme-primary);
+	margin: auto 0;
+}
+
+.dashboard .menu .link-container a:not([hidden]) {
+	display: flex;
+	border-radius: 10px;
+	color: var(--color-text-secondary);
+	padding: 12px;
+	margin: 0 0 10px;
+	text-decoration: none;
+	transition: color 0.2s, background 0.2s, border 0.2s;
+}
+
+.dashboard .menu .link-container a:not([hidden]):hover {
+	background: var(--color-canvas-secondary);
+}
+
+.dashboard .menu .link-container .active-link:not([hidden]) {
+	position: relative;
+	background: var(--color-theme-primary) !important;
+	color: #FFF;
+	z-index: 2;
+}
+
+.dashboard .menu .link-container a span {
+	margin: auto 0;
+}
+
+.dashboard .menu .link-container a svg {
+	width: 1.3em;
+	height: 1.3em;
+	margin: auto 10px auto 0;
+}
+
+.translate-popper-toggle {
+	display: none;
+}
+
+#c-popper-translate {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	padding: 0;
+}
+
+/* Widgets section */
+
+.dashboard .widgets {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	min-height: var(--app-height);
+}
+
+/* Submenu | Hidden by default!! */
+
+.dashboard .widgets > .grid {
+	display: grid;
+	grid-template-rows: auto auto 1fr;
+	min-height: calc(100vh - var(--nav-height));
+}
+
+.dashboard .submenu {
+	display: none;
+	background: var(--color-canvas-primary);
+	border: 1px solid var(--color-border-primary);
+	border-width: 0 1px 0 0;
+	padding: 25px 0;
+}
+
+.dashboard .submenu .d-heading {
+	padding: 0 25px;
+}
+
+.dashboard .submenu .link-container a {
+	display: block;
+	border: 1px solid var(--color-border-primary);
+	border-width: 1px 0 0;
+	padding: 15px 25px;
+	transition: background 0.2s;
+	text-decoration: none;
+}
+
+.dashboard .submenu .link-container a:last-child {
+	border-width: 1px 0;
+}
+
+.dashboard .submenu .link-container a:hover, .dashboard .submenu .link-container .active-link {
+	background: var(--color-canvas-secondary);
+}
+
+/* Widgets  */
+
+.dashboard .widgets-overflow-container {
+	background: var(--color-canvas-secondary-light);
+}
+
+.dashboard .widgets-container {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 20px 20px 0;
+}
+
+/*.dashboard .page-heading {
+	font-weight: bold;
+	margin: 0 0 25px;
+}*/
+
+.dashboard .d-message-container .d-message {
+	border-top: 1px solid rgba(var(--color-theme-base),var(--color-theme-secondary-opacity));
+}
+
+.about {
+	border-radius: 20px;
+	box-sizing: border-box;
+	background: var(--color-canvas-primary);
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.about button {
+	width: 100%;
+	padding: 15px;
+	border-top: 1px solid var(--color-border-primary);
+	color: var(--color-theme-primary);
+	cursor: pointer;
+}
+
+.about .grid {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 40px;
+	max-width: 900px;
+	box-sizing: border-box;
+	padding: 30px 20px;
+	margin: auto;
+}
+
+.about .content {
+	width: 100%;
+	/*margin: auto;*/
+}
+
+.about .content > * {
+	margin: 0 0 15px;
+}
+
+.about .content > *:last-child {
+	margin: 0;
+}
+
+.about .heading {
+	font-weight: bold;
+}
+
+.about .description {
+	line-height: 1.4em;
+	color: var(--color-text-secondary);
+}
+
+.about img {
+	height: 80px;
+	margin: auto;
+}
+
+@media only screen and (max-width: 750px) {
+	.about .grid {
+		gap: 20px;
+	}
+	.about .description {
+    	font-size: 1.1em;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+	.about .grid {
+		display: block;
+		padding: 20px;
+	}
+	.about img {
+	    display: none;
+	}
+	.about .description {
+    	font-size: 1.05em;
+    }
+}
+
+.dashboard .widget-row {
+	display: grid;
+	gap: 20px;
+	max-width: 100%;
+	margin-bottom: 20px;
+}
+
+.dashboard .widget {
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	max-height: 100%;
+	background: var(--color-canvas-primary);
+	border-radius: 20px;
+	border: 1px solid transparent;
+	box-sizing: border-box;
+	padding: 20px 20px 5px;
+	overflow-x: auto;
+}
+
+.dashboard .widget:target {
+	border-color: var(--color-theme-primary);
+}
+
+.dashboard .widget.highlight {
+    border-color: var(--color-theme-secondary-dark);
+    background: var(--color-theme-secondary-light);
+    color: var(--color-theme-primary);
+}
+
+.dashboard .widget > * {
+	margin: 0 0 15px;
+}
+
+.dashboard .widget > *:nth-last-child(1) {
+	margin-top: auto;
+}
+
+.dashboard .widget > *:nth-child(1) {
+	margin-top: 0;
+}
+
+.dashboard .widget .line-chart-wrapper {
+	min-width: 500px;
+}
+
+.dashboard .widget .grey, .dashboard .widget .gray {
+	color: var(--color-text-secondary);
+}
+
+@media only screen and (min-width:550px) and (max-width:1100px) {
+	.dashboard {
+		grid-template-columns: max-content 1fr;
+	}
+	.dashboard .menu {
+		padding: 15px;
+	}
+	.dashboard .menu .brand {
+		margin: 0;
+	}
+	.dashboard .menu .brand svg {
+		margin: 0;
+	}
+	.dashboard .menu .brand span {
+		display: none;
+	}
+	.dashboard .menu a {
+		width: 40px !important;
+		height: 40px !important;
+		border-radius: 15px !important;
+		padding: 5px !important;
+		box-sizing: border-box;
+	}
+	.dashboard .menu .link-container a svg {
+		width: 1.5em;
+		height: 1.5em;
+		margin: auto;
+	}
+	.dashboard .menu a span {
+		display: none;
+	}
+	.translate-popper-toggle {
+		display: flex;
+	}
+}
+
+@media only screen and (max-width: 550px) {
+	.dashboard {
+		display: block;
+	}
+	.dashboard .menu {
+		width: 250px;
+	}
+	.dashboard .menu-overflow-container {
+		position: fixed;
+		display: none;
+		left: 0;
+		border: 0;
+		z-index: 300;
+	}
+}
+
+

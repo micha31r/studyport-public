@@ -1,0 +1,107 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'stats/pages/progress/focus/main.css' %}">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'stats/pages/progress/goal/streak/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Progress
+{% endblock %}
+
+{% block dashboard-subpath-heading %}
+	Focus Period
+{% endblock %}
+
+{% block dashboard-subpath-options %}
+	<a class="d-btn" href="{% url 'stats:progress-academic' %}">Academic</a>
+	<a class="d-btn" href="{% url 'stats:progress-goal' %}">Goal</a>
+	<a class="d-btn" href="{% url 'stats:progress-focus' %}">Focus Period</a>
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/stopwatch.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Focus Period</h2>
+				<h3 class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:progress-focus' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if not focus_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No Goal Data</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block link-progress %}
+	class="active-link"
+{% endblock %}
+
+{% block dashboard-widgets %}
+	<script type="module" src="{% static 'stats/pages/progress/focus/main.js' %}"></script>
+		
+	{% if focus_data %}
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ raw_data|json_script:"raw-data" }}
+		{{ focus_data|json_script:"focus-data" }}
+
+		<div class="widget-row" id="widget-row-1">
+			<div class="widget">
+				<h3 class="heading">Focus Streak</h3>
+				<div class="streak">
+					<div class="streak__container">
+						<div class="streak__summary">
+							<h1 class="amount">{{ streak_count|stringformat:"03d" }}</h1>
+							<p class="description">Build your streak by studying 20 minutes every day. See if you can beat your highest record of {{ highest_streak }}</p>
+						</div>
+						<div class="streak__progress">
+							<div class="streak__dot" data-theme="{% if streak_data.0 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.1 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.2 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.3 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.4 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.5 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.6 %}blue{% endif %}"></div>
+							<div class="streak__dot" data-theme="{% if streak_data.7 %}blue{% endif %}"></div>
+							<div class="streak__dot current" data-theme="{% if streak_data.8 %}blue{% endif %}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="widget weekly-total">
+				<!-- Total hours this week -->
+				<h3 class="heading">Weekly Total</h3>
+				<div class="center">
+					<h1 class="amount">{{ weekly_total|floatformat:2 }}</h1>
+					<h3>Minutes</h3>
+				</div>
+			</div>
+		</div>
+		<div class="widget-row" id="widget-row-2">
+			<div class="widget">
+				<!-- Time series of goals completed -->
+				<h3 class="heading">Focus Sessions Completed</h3>
+				<canvas id="bar-chart1" width="2" height="1"></canvas>
+			</div>
+		</div>
+		<div class="widget-row" id="widget-row-3">
+			<div class="widget">
+				<!-- Compare focus hour to results -->
+				<h3 class="heading">Focus / Result Comparison</h3>
+				<canvas id="line-chart1" width="2" height="1"></canvas>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

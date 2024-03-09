@@ -1,0 +1,55 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'settings/pages/main.css' %}">
+{% endblock %}
+
+{% block links %}
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:app' %}?backlink={{ request.GET.backlink }}">
+		<svg width="24" height="24" viewBox="0 0 241 241" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M120.242 240.462C53.9675 240.462 0.241666 186.736 0.241669 120.462C0.241672 54.1879 53.9675 0.462033 120.242 0.462036C186.516 0.462039 240.242 54.1879 240.242 120.462C240.242 186.736 186.516 240.462 120.242 240.462Z" fill="transparent"/>
+		<path d="M98.8463 114.069V154.505H56.0556V221.871C22.5086 200.594 0.241669 163.128 0.241669 120.462C0.241672 54.1879 53.9675 0.462033 120.242 0.462036C186.516 0.462039 240.242 54.1879 240.242 120.462C240.242 163.128 217.975 200.594 184.428 221.871V73.6327H141.637V114.069H98.8463Z" fill="currentColor"/>
+		</svg>
+		<span>App Preferences</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:password' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'key' %}
+		<span>Change Password</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:account' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'user' %}
+		<span>Account Settings</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:theme' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'aperture' %}
+		<span>Themes</span>
+	</a>
+{% endblock %}
+
+{% block detail_content %}
+	<h3 class="heading">Account Settings</h3>
+	<div class="card">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="field">
+				<h4>First Name</h4>
+				<span>Your first name</span>
+				{{ form.first_name }}
+			</div>
+			<div class="field">
+				<h4>Last Name</h4>
+				<span>Your last name</span>
+				{{ form.last_name }}
+			</div>
+			<div class="field">
+				<h4>Email</h4>
+				<span>Your school email address</span>
+				{{ form.email }}
+			</div>
+			<button class="d-btn d-btn-primary-fill" type="submit">Save Changes</button>
+		</form>
+	</div>
+{% endblock %}

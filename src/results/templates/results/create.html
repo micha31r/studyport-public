@@ -1,0 +1,56 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'results/edit/main.css' %}">
+{% endblock %}
+
+{% block detail_content %}
+	<h3 class="heading">
+		{% block heading %}
+			Add New Result
+		{% endblock %}
+	</h3>
+	<div class="card">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="field">
+				<h4>Subject Code</h4>
+				<span>E.G DGT3 for Level 3 Digital Technology</span>
+				{% include 'dashboard/component/filter-dropdown.html' with placeholder="Subject code" dropdown_data=subject_data input=form.subject_code %}
+			</div>
+			<div class="field">
+				<h4>Assessment Code</h4>
+				<span>NQZA assessment codes look like this - AS91475</span>
+				{% include 'dashboard/component/filter-dropdown.html' with placeholder="Assessment code" dropdown_data=assessment_data input=form.assessment_code %}
+			</div>
+			<div class="field">
+				<h4>Date</h4>
+				<span>When did this assessment take place?</span>
+				{{ form.date }}
+			</div>
+			<div class="field">
+				<h4>Grade</h4>
+				<span>Please select your final grade</span>
+				{{ form.grade }}
+			</div>
+			<div class="field">
+				<h4>Practice Assessment</h4>
+				<span>Is this entry for a practice assessment?</span>
+				<div class="d-switch">{{ form.is_mock }}</div>
+			</div>
+			<div class="field">
+				<h4>Visibility</h4>
+				<span>If selected, this entry will be included in charts and analyses.</span>
+				<div class="d-switch">{{ form.is_published }}</div>
+			</div>
+			<button class="d-btn d-btn-primary-fill" type="submit">
+				{% block submit-text %}
+					Create New Entry
+				{% endblock %}
+			</button>
+		</form>
+	</div>	
+{% endblock %}

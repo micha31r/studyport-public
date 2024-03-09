@@ -1,0 +1,73 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'insight/pages/list/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Insights
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if not raw_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No results</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/eye.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Subject Insights</h2>
+				<h3 class="description">This page shows your progress for each subject, including endorsement progress, credits gained and GPAs, as well as upcoming assessments and goals related to the subject.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:insights' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block dashboard-widgets %}
+	{% if raw_data %}
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ raw_data|json_script:"raw-data" }}
+
+		<script type="module" src="{% static 'insight/pages/list/main.js' %}"></script>
+
+		<div class="widget-row">
+			<div class="table-container">
+				<table cellpadding="0" cellspacing="0" class="subjects">
+					<tbody>
+						<tr>
+							<th class="column-name">No.</th>
+							<th class="column-name">Subject</th>
+							<th class="column-name">Progress</th>
+							<th class="column-name">Upcoming Assessment</th>
+							<th class="column-name">Date</th>
+							<th class="column-name">GPA</th>
+							<th class="column-name" style="font-weight: 900;">±</th>
+						</tr>
+						{% for item in subject_data %}
+							<tr class="item">
+								<td><span>{{ forloop.counter }}</span></td>
+								<td><span>{{ item.subject.name }}</span></td>
+								<td><div class="chart-container"><canvas id="line-chart-{{ item.subject.subject_code }}"></canvas></div></td>
+								<td><span style="text-align: center">{% if item.result %}AS{{ item.result.assessment.assessment_code }}{% else %}--{% endif %}</span></td>
+								<td><span>{{ item.result.date|date:"M d" }}</span></td>
+								<td><span>{% if item.gpa %}{{ item.gpa|floatformat:3 }}{% else %}--{% endif %}</span></td>
+								<td><span class="gpa-change positive">{% if item.gpa_change %}{{ item.gpa_change|floatformat:3 }}{% else %}--{% endif %}</span></td>
+								<td><a href="{% url 'insight:subject' pk=item.subject.pk %}" class="view"><span>View</span>{% icon 'chevron-right' %}</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'stats/pages/progress/academic/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Progress
+{% endblock %}
+
+{% block dashboard-subpath-heading %}
+	Academic
+{% endblock %}
+
+{% block dashboard-subpath-options %}
+	<a class="d-btn" href="{% url 'stats:progress-academic' %}">Academic</a>
+	<a class="d-btn" href="{% url 'stats:progress-goal' %}">Goal</a>
+	<a class="d-btn" href="{% url 'stats:progress-focus' %}">Focus Period</a>
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/line-chart.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Academic Progress</h2>
+				<h3 class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:progress-academic' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if not raw_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No results</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block dashboard-widgets %}
+	<script type="module" src="{% static 'stats/pages/progress/academic/main.js' %}"></script>
+
+	{% if raw_data %}
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ raw_data|json_script:"raw-data" }}
+
+		<div class="widget-row" id="widget-row1">
+			<div class="widget" id="subject-averages">
+				<h3 class="heading">Subject Averages</h3>
+				<canvas id="bar-chart1" width="1" height="1"></canvas>
+			</div>
+			<div class="widget">
+				<h3 class="heading">Subject Credits</h3>
+				<canvas id="bar-chart2" width="1" height="1"></canvas>
+			</div>
+			<div class="widget historic-gpa">
+				<h3 class="heading">Historic GPA</h3>
+				<div class="container">
+					{% for obj in year_level_gpa_qs %}
+						<h2 class="amount">{{ obj.get_gpa|floatformat:3 }}</h2>
+						<p class="date">{{ obj.datetime|date:"M d" }}</p>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class="widget-row" id="widget-row2">
+			<div class="widget">
+				<h3 class="heading">Subject Assessment Comparison</h3>
+				<canvas id="line-chart1" width="2" height="1"></canvas>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
+

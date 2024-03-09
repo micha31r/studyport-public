@@ -1,0 +1,16 @@
+{% extends 'blank.html' %}
+{% load static %}
+
+{% block title %}
+	<title>Server Error · Insightz</title>
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'pages/exception/main.css' %}">
+{% endblock %}
+
+{% block content %}
+	<div class="exception">
+		<h1 class="heading">500 Server Error</h1>
+	</div>
+{% endblock %}

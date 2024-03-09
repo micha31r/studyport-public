@@ -1,0 +1,89 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'settings/pages/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'settings/pages/app/main.css' %}">
+{% endblock %}
+
+{% block links %}
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:app' %}?backlink={{ request.GET.backlink }}">
+		<svg width="24" height="24" viewBox="0 0 241 241" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M120.242 240.462C53.9675 240.462 0.241666 186.736 0.241669 120.462C0.241672 54.1879 53.9675 0.462033 120.242 0.462036C186.516 0.462039 240.242 54.1879 240.242 120.462C240.242 186.736 186.516 240.462 120.242 240.462Z" fill="transparent"/>
+		<path d="M98.8463 114.069V154.505H56.0556V221.871C22.5086 200.594 0.241669 163.128 0.241669 120.462C0.241672 54.1879 53.9675 0.462033 120.242 0.462036C186.516 0.462039 240.242 54.1879 240.242 120.462C240.242 163.128 217.975 200.594 184.428 221.871V73.6327H141.637V114.069H98.8463Z" fill="currentColor"/>
+		</svg>
+		<span>App Preferences</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:password' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'key' %}
+		<span>Change Password</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:account' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'user' %}
+		<span>Account Settings</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:theme' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'aperture' %}
+		<span>Themes</span>
+	</a>
+{% endblock %}
+
+{% block detail_content %}
+	<h3 class="heading">App Preferences</h3>
+	<div class="card">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="field">
+				<h4>Profile Image</h4>
+				<div class="profile">
+					<img id="current-image" src="/static/icons8/profile/{{ student.profile_image }}.svg">
+				</div>
+				<div class="scroll-container">
+					<div class="scroll-inner-container">
+						{% for name, _ in form.profile_image.field.choices %}
+							<button onclick="
+								document.querySelector('#id_profile_image').value='{{ name }}';
+								document.querySelector('#current-image').src='/static/icons8/profile/{{ name }}.svg';
+								return false;
+							"><img src="/static/icons8/profile/{{ name }}.svg"></button>
+						{% endfor %}
+					</div>
+				</div>
+				<p hidden>{{ form.profile_image }}</p>
+			</div>
+			<div class="field">
+				<h4>Year Level</h4>
+				<span>Your current year level</span>
+				{{ form.year_level }}
+			</div>
+			<div class="field">
+				<h4>Viewing Year Level</h4>
+				<span>The year level of which progress is shown</span>
+				{{ form.viewing_year }}
+			</div>
+			<!-- <div class="field">
+				<h4>Grading System</h4>
+				<span>Must be NCEA for automatic results sync</span>
+				{{ form.grading_system }}
+			</div> -->
+			<!-- <div class="grid">
+				<div class="field">
+					<h4>Internal Weighting</h4>
+					{{ form.internal_weighting }}
+				</div>
+				<div class="field">
+					<h4>External Weighting</h4>
+					{{ form.external_weighting }}
+				</div>
+			</div> -->
+			<div class="field">
+				<h4>Show Practice Assessments</h4>
+				<span>If selected, analyses will include practices assessments</span>
+				<div class="d-switch">{{ form.show_mock_results }}</div>
+			</div>
+			<button class="d-btn d-btn-primary-fill" type="submit">Update Preferences</button>
+		</form>
+	</div>
+{% endblock %}

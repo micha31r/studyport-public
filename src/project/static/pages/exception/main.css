@@ -1,0 +1,11 @@
+.exception {
+	display: flex;
+	min-height: 100vh;
+}
+
+.heading {
+	font-size: 3em;
+	margin: auto;
+	padding: 20px;
+	text-align: center;
+}

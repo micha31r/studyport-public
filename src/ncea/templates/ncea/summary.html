@@ -1,0 +1,220 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'ncea/pages/summary/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	NCEA Summary
+{% endblock %}
+
+{% block dashboard-subpath-heading %}
+	Level {{ level }}
+{% endblock %}
+
+{% block dashboard-subpath-options %}
+	<a class="d-btn" href="{% url 'ncea:summary' level=1 %}">Level 1</a>
+	<a class="d-btn" href="{% url 'ncea:summary' level=2 %}">Level 2</a>
+	<a class="d-btn" href="{% url 'ncea:summary' level=3 %}">Level 3</a>
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if not raw_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No results</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/contract.svg' %}">
+			<div class="content">
+				<h2 class="heading">About NCEA</h2>
+				<h3 class="description">This page shows your NCEA progress across all three levels, such as overall endorsement progress, subject endorsement progress, credits gained in each year, overall GPAs and assessments across each level.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:ncea' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block link-ncea %}
+	class="active-link"
+{% endblock %}
+
+{% block dashboard-widgets %}
+	{% if raw_data %}
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ raw_data|json_script:"raw-data" }}
+
+		<script type="module" src="{% static 'ncea/pages/summary/main.js' %}"></script>
+
+		<div class="widget-row" id="widget-row-1">
+			<div class="widget">
+				<h3 class="heading">NCEA Certificate Endorsement</h3>
+				<div class="endorsement">
+					<h2 class="summary">
+						{% if endorsement_level %}
+							You have endorsed NCEA Level {{ year_level|add:"-10" }} with {{ endorsement_level|title }}
+						{% else %}
+							You have yet to endorse NCEA Level {{ year_level|add:"-10" }}
+						{% endif %}
+					</h2>
+					<h3 class="info">You must gain at least 50 credits at a level or above to gain an endorsement</h3>
+					<div class="overall">
+						<p>Overall Progress</p>
+						<div class="progress-bar">
+							{% if endorsement_progress.a %}
+								<div class="bar" style="width:calc({{ endorsement_progress.a }}% / 50 * 100); background: {{ student.color_settings.ncea_a }};"></div>
+							{% endif %}
+							{% if endorsement_progress.m %}
+								<div class="bar" style="width:calc({{ endorsement_progress.m }}% / 50 * 100); background: {{ student.color_settings.ncea_m }};"></div>
+							{% endif %}
+							{% if endorsement_progress.e %}
+								<div class="bar" style="width:calc({{ endorsement_progress.e }}% / 50 * 100); background: {{ student.color_settings.ncea_e }};"></div>
+							{% endif %}
+						</div>
+						<div class="legend">
+							<div><span class="dot" style="background: {{ student.color_settings.ncea_e }};"></span><span>Excellence</span></div>
+							<div><span class="dot" style="background: {{ student.color_settings.ncea_m }};"></span><span>Merit</span></div>
+							<div><span class="dot" style="background: {{ student.color_settings.ncea_a }};"></span><span>Achieve</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="widget pass">
+				<h3 class="heading">Pass Level {{ year_level|add:"-10" }}</h3>
+				{% if passed %}
+					<div class="check" style="background: url('{% static 'insight/pages/subject/badge.svg' %}')">{% icon "check" %}</div>
+				{% else %}
+					<h2 class="summary">You still need {{ pass_progress }} more credits to pass this year</h2>
+				{% endif %}
+			</div>
+
+			<div class="widget gpa">
+				<h3 class="heading">GPA Comparison</h3>
+				<div class="card-container-wrapper">
+					<div class="card-container">
+						{% for k, v in year_gpas.items %}
+							<div class="card {% if k == level %}current{% endif %}">
+								<p>Level {{ k }}</p>
+								<h2>{% if v %}{{ v|floatformat:3 }}{% else %}--{% endif%}</h2>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="widget-row" id="widget-row-2">
+			<div class="widget subject-endorsement">
+				<h3 class="heading">Subject Endorsements</h3>
+				<div class="card-container-wrapper">
+					<div class="card-container">
+						{% for name, subject in subject_progress.items %}
+							<div class="card" onclick="window.location.href='{% url 'insight:subject' pk=subject.pk %}'">
+								<p>{{ name }}</p>
+								<div class="progress-bar">
+									{% if subject.progress.a %}
+										<div class="bar" data-theme="green" style="width:calc({{ subject.progress.a }}% / 14 * 100); background: {{ student.color_settings.ncea_a }};"></div>
+									{% endif %}
+									{% if subject.progress.m %}
+										<div class="bar" data-theme="blue" style="width:calc({{ subject.progress.m }}% / 14 * 100); background: {{ student.color_settings.ncea_m }};"></div>
+									{% endif %}
+									{% if subject.progress.e %}
+										<div class="bar" data-theme="yellow" style="width:calc({{ subject.progress.e }}% / 14 * 100); background: {{ student.color_settings.ncea_e }};"></div>
+									{% endif %}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="legend">
+					<div><span class="dot" style="background: {{ student.color_settings.ncea_e }};"></span><span>Excellence</span></div>
+					<div><span class="dot" style="background: {{ student.color_settings.ncea_m }};"></span><span>Merit</span></div>
+					<div><span class="dot" style="background: {{ student.color_settings.ncea_a }};"></span><span>Achieve</span></div>
+				</div>
+			</div>
+
+			<div class="widget">
+				<h3 class="heading">Credits</h3>
+				<canvas id="bar-chart-1"></canvas>
+			</div>
+		</div>
+
+		<div class="widget-row" id="widget-row-3">
+			<div class="widget">
+				<h3 class="heading">Assessment</h3>
+				<canvas id="line-chart-1"></canvas>
+			</div>
+		</div>
+
+		<div class="widget-row" id="widget-row-4">
+			<div class="widget">
+				<h3 class="heading">Credits Gained Each Year</h3>
+				<div class="table-wrapper">
+					<table cellpadding="0" cellspacing="0" class="credits" width="100%">
+						<tbody>
+							<tr class="headings">
+								<th class="column-name">Year</th>
+								<th class="column-name">NA</th>
+								<th class="column-name">A</th>
+								<th class="column-name">M</th>
+								<th class="column-name">E</th>
+								<th class="column-name">Total Achieved</th>
+								<th class="column-name">Total Sat</th>
+							</tr>
+							{% for year, data in year_data.items %}
+								<tr class="item">
+									<td>{{ year }}</td>
+									<td>{{ data.na }}</td>
+									<td>{{ data.a }}</td>
+									<td>{{ data.m }}</td>
+									<td>{{ data.e }}</td>
+									<td>{{ data.a|add:data.m|add:data.e }}</td>
+									<td>{{ data.na|add:data.a|add:data.m|add:data.e }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="widget">
+				<h3 class="heading">Credits Gained Each Level</h3>
+				<div class="table-wrapper">
+					<table cellpadding="0" cellspacing="0" class="credits" width="100%">
+						<tbody>
+							<tr class="headings">
+								<th class="column-name">Level</th>
+								<th class="column-name">NA</th>
+								<th class="column-name">A</th>
+								<th class="column-name">M</th>
+								<th class="column-name">E</th>
+								<th class="column-name">Total Achieved</th>
+								<th class="column-name">Total Sat</th>
+							</tr>
+							{% for level, data in level_data.items %}
+								<tr class="item">
+									<td>{{ level }}</td>
+									<td>{{ data.na }}</td>
+									<td>{{ data.a }}</td>
+									<td>{{ data.m }}</td>
+									<td>{{ data.e }}</td>
+									<td>{{ data.a|add:data.m|add:data.e }}</td>
+									<td>{{ data.na|add:data.a|add:data.m|add:data.e }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

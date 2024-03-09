@@ -1,0 +1,270 @@
+.d-banner .d-container {
+	max-width: 1200px;
+}
+
+.d-container-wrapper {
+	display: flex;
+	padding-top: 80px;
+	padding-bottom: 80px;
+	box-sizing: border-box;
+}
+
+.d-container-wrapper * {
+	font-family: proxima-nova, sans-serif;
+}
+
+.intro {
+	margin: auto;
+}
+
+.intro .grid {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	grid-column-gap: 40px;
+	grid-row-gap: 60px;
+	box-sizing: border-box;
+	margin: auto;
+}
+
+.intro .grid #left {
+	margin: auto 0;
+}
+
+.intro .heading {
+	font-size: 4em;
+	font-weight: 900;
+	max-width: 500px;
+	margin: 0 0 30px;
+}
+
+.intro .subheading {
+	font-size: 1.3em;
+	line-height: 1.5em;
+	max-width: 400px;
+	margin: 0 0 40px;
+}
+
+.intro a.sign-up {
+	border-radius: 20px;
+	box-shadow: 0 15px 40px rgba(59,127,255,0.4);
+	padding: 20px 30px;
+}
+
+.intro .flex {
+	display: flex;
+}
+
+.intro .flex > div {
+	margin-top: auto;
+}
+
+.intro img {
+	width: 100%;
+}
+
+/* Features section  */
+
+.feature-container-wrapper {
+	background: rgb(231,239,252);
+}
+
+.feature .textgroup {
+	width: fit-content;
+	margin: 0 auto;
+}
+
+.feature .textgroup .subheading {
+	font-weight: bold;
+	color: var(--color-theme-primary);
+	margin: 0 0 10px;
+	text-align: center;
+}
+
+.feature .textgroup .heading {
+	width: fit-content;
+	font-size: 3rem;
+	margin: 0 0 40px;
+	text-align: center;
+}
+
+.feature .flex {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	margin: 0 -20px -20px 0;
+}
+
+.feature .card {
+	flex: 1;
+	min-width: 200px;
+	max-width: 300px;
+	height: max-content;
+    /*box-shadow: 0 10px 20px rgba(73,68,147,0.15);*/
+    background: #FFF;
+	border-radius: 30px;
+	padding: 30px;
+	margin: 0 20px 20px 0;
+}
+
+.feature .card img {
+	width: 100%;
+	border: 1px solid var(--color-border-primary);
+	border-radius: 20px;
+}
+
+.feature .card .heading {
+	margin: 0 0 20px;
+}
+
+.feature .card p {
+	margin: 0 0 20px;
+	line-height: 1.4em;
+}
+
+.feature .card > *:nth-last-child(1) {
+	margin: 0;
+}
+
+@media only screen and (max-width: 1100px) {
+	.intro .heading {
+		font-size: 3.5em;
+	}
+	.feature .textgroup .heading {
+		font-size: 2.5em;
+	}
+}
+
+@media only screen and (max-width: 1000px) {
+	.intro .heading {
+		font-size: 3em;
+	}
+	.feature .textgroup .heading {
+		font-size: 2em;
+	}
+}
+
+@media only screen and (max-width: 900px) {
+	.intro {
+		max-width: 100%;
+		padding-right: 0;
+		box-sizing: border-box;
+	}
+	.intro .flex {
+		overflow: hidden;
+	}
+	.intro img {
+		width: auto;
+		height: 350px;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+	.intro .grid {
+		grid-column-gap: 10px;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.intro {
+		padding: 0 40px;
+	}
+	.intro .grid {
+		grid-template-columns: 1fr;
+	}
+	.intro .heading {
+		font-size: 3.5em;
+		max-width: 600px;
+	}
+	.intro .heading br {
+		display: none;
+	}
+	.intro .heading br.temporary {
+		display: block;
+	}
+	.intro #left * {
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+	.intro .sign-up {
+		display: block;
+		width: max-content;
+		margin: auto;
+	}
+	.intro img {
+		width: 100%;
+		height: auto;
+	}
+	.feature .textgroup .heading {
+		font-size: 2.5em;
+	}
+	.feature .card {
+		max-width: 400px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.intro .heading {
+		max-width: 500px;
+	}
+	.intro .heading br {
+		display: block;
+	}
+	.intro .heading br.temporary {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.intro .subheading {
+		font-size: 1.2em;
+		max-width: 320px;
+	}
+	.feature .textgroup .heading {
+		font-size: 2em;
+	}
+	.feature .textgroup .subheading {
+		margin: 0 0 5px;
+	}
+	.intro .subheading br {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.d-container.d-padding {
+		padding: 0 20px;
+	}
+	.intro .heading {
+		font-size: 3rem;
+		max-width: 350px;
+	}
+	.intro .heading br {
+		display: none;
+	}
+	.intro .subheading {
+		max-width: 250px;
+	}
+	.feature .card {
+		padding: 25px;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.intro .heading {
+		font-size: 2.7rem;
+		max-width: 320px;
+	}
+}
+
+@media only screen and (max-width: 350px) {
+	.intro .heading {
+		max-width: 260px;
+		font-size: 2.5em;
+	}
+	.intro .subheading {
+		font-size: 1.1em;
+	}
+}
+
+

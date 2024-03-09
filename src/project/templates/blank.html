@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="{% if user.student %}{{ student.color_settings.theme }}{% elif user.staff %}{{ staff.color_settings.theme }}{% else %}blue{% endif %}" data-mode="light">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        {% block meta %}
+        {% endblock %}
+
+        {% block title %}
+            <title>Studyport - Grade Tracker For NCEA</title>
+        {% endblock %}
+
+        <!-- Base css(s) -->
+        <link rel="stylesheet" type="text/css" href="{% static 'base/normalize.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'base/themes.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'base/main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'base/loader.css' %}">
+
+        <!-- Adobe fonts -->
+        <link rel="stylesheet" href="https://use.typekit.net/hpn4avb.css">
+
+        <!-- Favicon -->
+        <link rel="icon" href="{% static 'base/favicon.png' %}">
+        
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+        <!-- Loading screen image -->
+        <div id="loader">
+            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="95" stroke="var(--color-canvas-secondary)" stroke-width="10"/><path d="M100 195C47.533 195 5 152.467 5 100" stroke="var(--color-theme-primary)" stroke-width="10"/></svg>
+        </div>
+        
+        <!-- Loader js -->
+        <script type="text/javascript" src="{% static 'base/loader.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'base/dark-mode.js' %}"></script>
+
+        <!-- Main js -->
+        <script type="text/javascript" src="{% static 'base/main.js' %}"></script>
+
+        <!-- Color Data -->
+        {{ theme_data|json_script:"theme-data" }}
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

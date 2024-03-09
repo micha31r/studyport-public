@@ -1,0 +1,77 @@
+{% extends "blank.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'templates/detail/main.css' %}">
+{% endblock %}
+
+{% block content %}
+	<script type="text/javascript" src="{% static 'templates/detail/main.js' %}"></script>
+
+	<div class="d-message-container">
+		{% block messages %}
+		    {% if messages %}
+		        {% for message in messages %}
+		            <div class="d-message d-message-{{ message.tags }}" data-theme="{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}yellow{% endif %}">
+		                {% if message.tags == "success" %}
+		                	{% icon 'check-circle' %}
+		                {% elif message.tags == "error" %}
+		                	{% icon 'x-circle' %}
+		                {% else %}
+		                	{% icon 'alert-circle' %}
+		                {% endif %}
+		                <span>{{ message|safe }}</span>
+		            </div>
+		        {% endfor %}
+		    {% endif %}
+		{% endblock %}
+	</div>
+
+	<div class="grid-container">
+		<div class="menu">
+			<h2 class="brand">
+				<svg width="403" height="403" viewBox="0 0 403 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M201.478 402.934C90.3381 402.934 0.241664 312.838 0.241669 201.698C0.241674 90.5584 90.3381 0.462031 201.478 0.462036C312.617 0.462041 402.714 90.5585 402.714 201.698C402.714 312.838 312.617 402.934 201.478 402.934Z"/>
+				<path d="M165.598 190.977V258.787H93.8398V371.758C37.5826 336.076 0.241669 273.248 0.241669 201.698C0.241674 90.5584 90.3381 0.462031 201.478 0.462036C312.617 0.462041 402.714 90.5585 402.714 201.698C402.714 273.248 365.373 336.076 309.115 371.758V123.167H237.357V190.977H165.598Z" fill="var(--color-theme-primary)"/>
+				</svg>
+				<span class="notranslate">studyport</span>
+			</h2>
+			<div class="link-container">
+				{% block links %}
+				{% endblock %}
+				<a class="d-btn d-btn-primary-fill" href="{% if request.GET.backlink %}{{ request.GET.backlink }}{% else %}{% url 'stats:overview' %}{% endif %}">
+					{% icon 'arrow-left' %}
+					<span>Go Back</span>
+				</a>
+			</div>
+			<div class="translate-button">
+				<div id='google_translate_element'>
+					<svg viewBox="0 0 24 24" width="1.3em" height="1.3em" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)"><path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/><path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/><path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/><path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.099 -17.884 43.989 -14.754 43.989 Z"/></g></svg>
+				</div>
+			  	<script>
+					function googleTranslateElementInit() {
+					new google.translate.TranslateElement({
+					pageLanguage: 'en',
+					autoDisplay: 'true',
+					layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+					}, 'google_translate_element');
+					}
+				</script>
+				<script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+			</div>
+		</div>
+
+		<div class="content">
+			<button id="menu-toggle" class="d-btn d-btn-icon">{% icon 'menu' %}</button>
+			{% block detail_content %}
+			{% endblock %}
+		</div>
+	</div>
+
+	<a class="d-btn d-btn-icon close" href="{% if request.GET.backlink %}{{ request.GET.backlink }}{% else %}{% url 'stats:overview' %}{% endif %}">{% icon 'x' %}</a>	
+
+	{% if user.is_authenticated %}
+		{% include "unisearch.html" %}
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+.c-filter-dropdown {
+	position: relative;
+}
+
+.c-filter-dropdown input {
+	position: relative;
+	width: 100%;
+	border: 0;
+	border-radius: 10px;
+	border: 1px solid transparent;
+	background: var(--color-canvas-secondary);
+	box-sizing: border-box;
+	padding: 15px 0;
+	text-indent: 15px;
+	outline: none;
+	/*z-index: 2;*/
+}
+
+.c-filter-dropdown.open input {
+	border: 1px solid var(--color-border-primary);
+	border-radius: 10px 10px 0 0;
+}
+
+.c-filter-dropdown__dropdown {
+	display: none;
+	position: fixed;
+	max-height: 250px;
+	background: var(--color-canvas-primary);
+	border: 1px solid var(--color-border-primary);
+	border-width: 0 1px 1px;
+	border-radius: 0 0 10px 10px;
+	box-sizing: border-box;
+	padding: 5px;
+	overflow: auto;
+	z-index: 2;
+}
+
+.c-filter-dropdown.open .c-filter-dropdown__dropdown {
+	display: block;
+}

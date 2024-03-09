@@ -1,0 +1,47 @@
+.streak__container {
+	width: 100%;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.streak__summary {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 40px;
+	margin: 0 0 20px;
+}
+
+.streak__summary .amount {
+    font-weight: bold;
+    font-size: 4em;
+    margin: 0 !important;
+}
+
+.streak__summary .description {
+	font-size: 1.1em;
+	line-height: 1.4em;
+	margin: 10px 0 0;
+}
+
+.streak__progress {
+	display: flex;
+	justify-content: space-between;
+}
+
+.streak .streak__dot {
+	display: block;
+	width: 15px;
+	height: 15px;
+	border-radius: 100%;
+	background: rgb(var(--color-theme-base));
+	margin: auto;
+}
+
+.streak .streak__dot[data-theme=""] {
+	background: var(--color-canvas-secondary);
+}
+
+.streak .streak__dot.current {
+	transform: scale(1.8);
+}

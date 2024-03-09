@@ -1,0 +1,60 @@
+nav .dashboard-path .slash, 
+nav .dashboard-path .subpath,
+nav .subpath-dropdown-container {
+	/* Set this to initial to show subpaths */
+	display: initial;
+}
+
+canvas {
+	height: 100%;
+	max-height: 300px;
+}
+
+#widget-row-1 {
+	grid-template-columns: 1fr 0.5fr;
+}
+
+.weekly-total .amount {
+	font-weight: bold;
+    font-size: 4em;
+    line-height: 2rem;
+    margin: 0 !important;
+}
+
+.weekly-total .center {
+	margin: auto !important;
+}
+
+@media only screen and (max-width: 840px) {
+	.streak__summary {
+	    gap: 20px !important;
+	}
+	.streak__summary .amount {
+		font-size: 3em !important;
+	}
+	.weekly-total .amount {
+		font-size: 3em;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	#widget-row-1 {
+    	grid-template-columns: 1fr;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.streak__summary {
+	    grid-template-columns: 1fr !important;
+	    gap: 0 !important;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.streak .streak__dot {
+	    width: 12px !important;
+	    height: 12px !important;
+	}
+}
+
+

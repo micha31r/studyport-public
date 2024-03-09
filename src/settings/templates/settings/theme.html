@@ -1,0 +1,77 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/component/popper/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'settings/pages/theme/main.css' %}">
+{% endblock %}
+
+{% block links %}
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:app' %}?backlink={{ request.GET.backlink }}">
+		<svg width="24" height="24" viewBox="0 0 241 241" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M120.242 240.462C53.9675 240.462 0.241666 186.736 0.241669 120.462C0.241672 54.1879 53.9675 0.462033 120.242 0.462036C186.516 0.462039 240.242 54.1879 240.242 120.462C240.242 186.736 186.516 240.462 120.242 240.462Z" fill="transparent"/>
+		<path d="M98.8463 114.069V154.505H56.0556V221.871C22.5086 200.594 0.241669 163.128 0.241669 120.462C0.241672 54.1879 53.9675 0.462033 120.242 0.462036C186.516 0.462039 240.242 54.1879 240.242 120.462C240.242 163.128 217.975 200.594 184.428 221.871V73.6327H141.637V114.069H98.8463Z" fill="currentColor"/>
+		</svg>
+		<span>App Preferences</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:password' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'key' %}
+		<span>Change Password</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:account' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'user' %}
+		<span>Account Settings</span>
+	</a>
+	<a class="d-btn d-btn-secondary-fill" href="{% url 'settings:theme' %}?backlink={{ request.GET.backlink }}">
+		{% icon 'aperture' %}
+		<span>Themes</span>
+	</a>
+{% endblock %}
+
+{% block detail_content %}
+	<script type="text/javascript" src="{% static 'dashboard/component/popper/index.js' %}"></script>
+	<script type="text/javascript" src="{% static 'settings/pages/theme/main.js' %}"></script>
+
+	<h3 class="heading">Customise Themes</h3>
+	<div class="card">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="global-theme">
+				<h3>Interface Colors</h3>
+				<div class="flex">
+					<p hidden>{{ form.theme }}</p>
+					{% for val, name in form.fields.theme.choices %}
+				    	<button type="button" data-theme="{{ val }}" data-active="{% if val == student.color_settings.theme %}true{% endif %}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg></button>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="chart-theme">
+				<h3>{{ student.get_grading_system_display }} Chart Colors</h3>
+				<div class="grid">
+					{% for item in form %}
+						{% if item.label != "Theme" %}
+							<div class="item">
+								<button type="button" class="c-popper-toggle" style="background: {{ item.value }};" data-index="{{ item.label }}">
+									<span class="label"><span style="color: {{ item.value }};">{{ item.label }}</span></span>
+									<span class="hex">{{ item.value }}</span>
+								</button>
+
+								<div class="dropdown" id="c-popper-{{ item.label }}" data-position="bottom" data-align="left" hidden>
+									{% for color in chart_swatches %}
+										<button type="button" data-active="{% if item.value == color %}true{% endif %}" data-value="{{ color }}" style="background: {{ color }};"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg></button>
+									{% endfor %}
+									<p hidden>{{ item }}</p>
+								</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			
+			<button class="d-btn d-btn-primary-fill" type="submit">Update Themes</button>
+		</form>
+	</div>
+{% endblock %}

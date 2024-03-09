@@ -1,0 +1,39 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/notification/main.css' %}">
+{% endblock %}
+
+{% block detail_content %}
+	<h3 class="heading">
+		{% block heading %}
+			Recent Notifications
+		{% endblock %}
+	</h3>
+
+	{% if user.notifications.unread.count > 0 %}
+		<a class="d-btn d-btn-primary-fill create" href="{% url 'dashboard:mark-as-read' %}?backlink={{ backlink }}"><span>Mark As Read</span></a>
+	{% endif %}
+
+	{% for obj in user.notifications.all %}
+		<div class="card">
+			{% if obj.data.notification_type == "goal" %}
+				{% icon "target" %}
+			{% elif obj.data.notification_type == "result" %}
+				{% icon "edit-3" %}
+			{% else %}
+				{% icon "alert-circle" %}
+			{% endif %}
+			<div class="card-content">
+				<h3 class="card-heading">{{ obj.verb }}</h3>
+				<p class="timestamp">{{ obj.timestamp|date:"d M Y" }}</p>
+			</div>
+			{% if obj.unread %}
+				<div class="badge">New</div>
+			{% endif %}
+		</div>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/create/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'results/edit/main.css' %}">
+{% endblock %}
+
+{% block detail_content %}
+	<script type="text/javascript">
+		// Resize filter dropdown after google translate element loads
+		setTimeout(function() {window.dispatchEvent(new Event('resize'));}, 1000)
+	</script>
+
+	<h3 class="heading">
+		{% block heading %}
+			Create Goal
+		{% endblock %}
+	</h3>
+
+	<div class="template-name">
+		<img src="{% static 'icons8/stopwatch.svg' %}">
+		<h3>Set A Focus Period Goal</h3>
+	</div>
+	
+	<div class="card">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="field">
+				<h4>Duration</h4>
+				{{ form.target }}
+			</div>
+			<div class="field">
+				<h4>Repeat</h4>
+				{{ form.repeat }}
+			</div>
+			<div class="field">
+				<h4>End Date <span class="badge">optional</span></h4>
+				<span>Set a time limit for this goal</span>
+				{{ form.end_date }}
+			</div>
+			<button class="d-btn d-btn-primary-fill" type="submit">
+				Create Goal
+			</button>
+		</form>
+	</div>	
+{% endblock %}

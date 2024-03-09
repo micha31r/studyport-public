@@ -1,0 +1,177 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'dashboard/component/popup/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/list/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/list/editor.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Goals
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if student.show_mock_results or student.playground_is_active %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+			{% icon 'alert-circle' %}
+	        <span>Active playground and mock results will not affect goal progress</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/goal.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Goals</h2>
+				<h3 class="description">Set goals to help you improve! Studyport automatically calculate your goal progress based on your results so you can focus on your work. Below are some goal templates to help you get started. You can also create a completely customised goal.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:goals' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block dashboard-widgets %}
+	<script type="text/javascript" src="{% static 'dashboard/component/popup/index.js' %}"></script>
+	
+	<script type="text/javascript" src="{% static 'goal/list/editor.js' %}"></script>
+
+	<div class="widget-row">
+		<div class="goal-templates">
+			<div class="card" onclick="window.location.href='{% url 'goal:create-credits' %}?backlink={{ request.path }}'">
+				<img src="{% static 'icons8/numbers.svg' %}">
+				<h3 class="heading">Credits</h3>
+				<p class="description">Set the number of credits (of level a, m, e) you want to achieve for a specific year or subject.</p>
+			</div>
+			<div class="card" onclick="window.location.href='{% url 'goal:create-gpa' %}?backlink={{ request.path }}'">
+				<img src="{% static 'icons8/graduate.svg' %}">
+				<h3 class="heading">GPA</h3>
+				<p class="description">Set the Grade Point Average (GPA) you want to achieve for a specific year or subject.</p>
+			</div>
+			<div class="card" onclick="window.location.href='{% url 'goal:create-rank-score' %}?backlink={{ request.path }}'">
+				<img src="{% static 'icons8/leaderboard.svg' %}">
+				<h3 class="heading">Rank Score</h3>
+				<p class="description">Set the rank score you want to achieve for NCEA level 3 as a whole, or a specific level 3 subject.</p>
+			</div>
+			<div class="card" onclick="window.location.href='{% url 'goal:create-focus-period' %}?backlink={{ request.path }}'">
+				<img src="{% static 'icons8/stopwatch.svg' %}">
+				<h3 class="heading">Focus Period</h3>
+				<p class="description">Set the number of minutes you want to study for, with the option to repeat weekly or monthly</p>
+			</div>
+		</div>
+
+		<button class="d-btn d-btn-primary-fill create c-popup-toggle"><span>Create Custom Goal</span> {% icon 'plus' %}</button>
+
+		<div class="table-container">
+			<table cellpadding="0" cellspacing="0" class="goals">
+				{% for k, qs in repeat.items %}
+					
+					<tbody data-theme="{% if k == 'weekly' %}red{% elif k == 'monthly' %}purple{% endif %}">
+						<tr>
+							<th colspan="2"><h3 class="group-name">Repeat {{ k|capfirst }}</h3></th>
+							<th class="column-name">Progress</th>
+							<th class="column-name">Due</th>
+							<th class="column-name">Status</th>
+							<th class="column-name"></th>
+						</tr>
+						{% for obj in qs %}
+							<tr class="item" {% if k != 'once' %}onclick="window.location.href='{% url 'goal:detail' pk=obj.pk %}'"{% endif %}>
+								<td><span class="category"></span></td>
+								<td>{{ obj.get_field_display }} <span class="comparator">{{ obj.get_comparator_display }}</span> {{ obj.target }}</td>
+
+								{% if obj.comparator == "<" or obj.comparator == "<=" %}
+									<!-- Reverse progress for "less than" goals -->
+									<td><span class="progress-bar"><span class="bar" style="width:calc(({{ obj.target }}% - {{ obj.current }}%) / {{ obj.target }} * 100)"></span></span></td>
+								{% else %}
+									<td><span class="progress-bar"><span class="bar" style="width:calc({{ obj.current }}% / {{ obj.target }} * 100)"></span></span></td>
+								{% endif %}
+								
+								<td><span class="date">{% if obj.end_date %}{{ obj.end_date|date:"M d, Y" }}{% else %}Indefinite{% endif %}</span></td>
+								<td><span class="status" data-theme="{% if obj.status == 'ongoing' %}yellow{% elif obj.status == 'success' %}green{% elif obj.status == 'fail' %}red{% endif %}">{{ obj.get_status_display }}</span></td>
+								<td><a href="{% url 'goal:edit' pk=obj.pk %}?backlink={{ request.path }}">{% icon "edit" width="1.3em" height="1.3em" stroke-width="2.5px" %}</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+	
+	<div id="c-popup">
+		<div class="c-popup__container editor" style="max-width: 500px;">
+			<h3 class="c-popup__container__heading">Create Custom Goal</h3>
+			<div class="view-container">
+				<form id="general-view" method="post">
+					{% csrf_token %}
+					<div class="field">
+						<h4>My goal is for</h4>
+						<span>What needs to be accomplished?</span>
+						{{ form.field }}
+					</div>
+					<div class="field">
+						<h4>Value to achieve</h4>
+						<span>What value you are aiming to achieve for this goal?</span>
+						{{ form.target }}
+					</div>
+					<div class="field">
+						<h4>Validation</h4>
+						<span>How will progress be measured against the value you are aiming to achieve?</span>
+						{{ form.comparator }}
+					</div>
+					<div class="field">
+						<h4>Start date</h4>
+						<span>When would you like to start this goal?</span>
+						{{ form.date }}
+					</div>
+					<div class="field">
+						<h4>End date</h4>
+						<span>Limit you goal within a time frame.</span>
+						<div class="grid">
+							{{ form.end_option }}
+							{{ form.end_date }}
+						</div>
+					</div>
+					<div class="field">
+						<h4>Repeat</h4>
+						<span>How often should this goal repeat?</span>
+						{{ form.repeat }}
+					</div>
+					<p hidden>{{ form.model_name }}</p>
+					<p hidden>{{ form.filters }}</p>
+				</form>
+				<div id="filter-view">
+					<div class="field">
+						<form id="general-view">
+							<div class="field">
+								<h4>Add filter</h4>
+								<span>Limit the database entries that progress calculation is based on.</span>
+								<div class="grid" style="grid-template-columns: 1fr 0.5fr 0.5fr auto;">
+									<select id="editor-filter-name"></select>
+									<select id="editor-filter-comparator">
+										<option value="<"><</option>
+										<option value="<=">< or =</option>
+										<option value=">">></option>
+										<option value=">=">> or =</option>
+										<option value="==">=</option>
+									</select>
+									<input id="editor-filter-value" type="text" name="filter-value" placeholder="Value">
+									<button id="editor-toggle-add-filter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+								</div>
+							</div>
+						</form>
+						<div id="editor-filter-container"></div>
+					</div>
+				</div>
+			</div>
+			<div class="editor__action-container">
+				<button class="editor-toggle active" id="editor-toggle-general"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button>
+				<button class="editor-toggle" id="editor-toggle-filter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></button>
+				<button id="editor-submit-toggle" class="d-btn d-btn-primary-fill" type="submit"><span>Create Goal</span></button>
+			</div>
+		</div>
+	</div>
+{% endblock %}

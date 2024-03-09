@@ -1,0 +1,93 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/list/editor.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/edit/main.css' %}">
+{% endblock %}
+
+{% block detail_content %}
+	<script type="text/javascript" src="{% static 'goal/list/editor.js' %}"></script>
+	<script type="text/javascript" src="{% static 'goal/edit/load-filters.js' %}"></script>
+
+	<h3 class="heading">
+		{% block heading %}
+			Edit Goal
+		{% endblock %}
+	</h3>
+	
+	<div class="card editor">
+		<div class="view-container">
+			<form id="general-view" method="post">
+				{% csrf_token %}
+				<div class="field">
+					<h4>My goal is for</h4>
+					<span>What needs to be accomplished?</span>
+					{{ form.field }}
+				</div>
+				<div class="field">
+					<h4>Value to achieve</h4>
+					<span>What value you are aiming to achieve for this goal?</span>
+					{{ form.target }}
+				</div>
+				<div class="field">
+					<h4>Validation</h4>
+					<span>How will progress be measured against the value you are aiming to achieve?</span>
+					{{ form.comparator }}
+				</div>
+				<div class="field">
+					<h4>Start date</h4>
+					<span>When would you like to start this goal?</span>
+					{{ form.date }}
+				</div>
+				<div class="field">
+					<h4>End date</h4>
+					<span>Limit you goal within a time frame.</span>
+					<div class="grid">
+						{{ form.end_option }}
+						{{ form.end_date }}
+					</div>
+				</div>
+				<div class="field">
+					<h4>Repeat</h4>
+					<span>How often should this goal repeat?</span>
+					{{ form.repeat }}
+				</div>
+				<p hidden>{{ form.model_name }}</p>
+				<p hidden>{{ form.filters }}</p>
+			</form>
+			<div id="filter-view">
+				<div class="field">
+					<form id="general-view">
+						<div class="field">
+							<h4>Add filter</h4>
+							<span>Limit the database entries that progress calculation is based on.</span>
+							<div class="grid" style="grid-template-columns: 1fr 0.5fr 0.5fr auto;">
+								<select id="editor-filter-name"></select>
+								<select id="editor-filter-comparator">
+									<option value="<"><</option>
+									<option value="<=">< or =</option>
+									<option value=">">></option>
+									<option value=">=">> or =</option>
+									<option value="==">=</option>
+								</select>
+								<input id="editor-filter-value" type="text" name="filter-value" placeholder="Value">
+								<button id="editor-toggle-add-filter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></button>
+							</div>
+						</div>
+					</form>
+					<div id="editor-filter-container"></div>
+				</div>
+			</div>
+		</div>
+		<div class="editor__action-container">
+			<button class="editor-toggle active" id="editor-toggle-general"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button>
+			<button class="editor-toggle" id="editor-toggle-filter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></button>
+			<button id="editor-submit-toggle" class="d-btn d-btn-primary-fill" type="submit"><span>Save Changes</span></button>
+		</div>
+	</div>	
+
+	<a href="{% url 'goal:delete' pk=obj.pk %}" class="d-btn d-btn-icon delete">{% icon 'trash-2' %}</a>
+{% endblock %}

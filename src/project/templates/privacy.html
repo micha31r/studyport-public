@@ -1,0 +1,32 @@
+{% extends "docs/base.html" %}
+
+{% block docs-heading %}
+	Privacy Policy
+{% endblock %}
+
+{% block content %}
+	{{ block.super }}
+	<script>
+		window.addEventListener("load", function() {
+			document.documentElement.dataset.theme = 'blue';
+		});
+	</script>
+{% endblock %}
+
+{% block docs-content %}
+# Privacy Policy
+
+We collect personal information from you, including information about your:
+
+- Name
+- Contact information
+- Interactions with us
+- Student Information
+- Any other information you give us
+
+We collect your personal information in order to:
+- Provide grade tracking service
+- Operate and maintain our website
+
+You have the right to ask for a copy of any personal information we hold about you, and to ask for it to be corrected if you think it is wrong. If you’d like to ask for a copy of your information, or to have it corrected, please contact us at  privacy@studyport.co.
+{% endblock %}

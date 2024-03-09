@@ -1,0 +1,39 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load icon %}
+
+{% block dashboard-scripts %}
+<!-- Requires third party libs -->
+<!-- https://stackoverflow.com/questions/67672875/chart-js-method-is-not-implemented -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
+{% endblock %}
+
+{% block dashboard-menu %}
+	<a {% block link-overview %}{% endblock %} href="{% url 'stats:overview' %}">
+		{% icon "pie-chart" %}
+		<span>Overview</span>
+	</a>
+	<a {% block link-progress %}{% endblock %} href="{% url 'stats:progress-academic' %}">
+		{% icon "trending-up" %}
+		<span>Progress</span>
+	</a>
+	{% if student.grading_system == "ncea" %}
+		<a {% block link-ncea %}{% endblock %} href="{% url 'ncea:summary' level=student.year_level|add:'-10' %}">
+			{% icon "book" %}
+			<span>NCEA</span>
+		</a>
+	{% endif %}
+	<a {% block link-goals %}{% endblock %} href="{% url 'goal:list' %}">
+		{% icon "target" %}
+		<span>Goals</span>
+	</a>
+	<a {% block link-results %}{% endblock %} href="{% url 'results:list' %}">
+		{% icon "edit-3" %}
+		<span>Results</span>
+	</a>
+	<a {% block link-insights %}{% endblock %} href="{% url 'insight:list' %}">
+		{% icon "eye" %}
+		<span>Insights</span>
+	</a>
+{% endblock %}

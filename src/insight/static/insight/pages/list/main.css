@@ -1,0 +1,122 @@
+.table-container {
+	overflow: auto;
+}
+
+table.subjects {
+	table-layout: fixed;
+	border-spacing: 0 8px;
+}
+
+.subjects .column-name {
+	color: var(--color-text-secondary);
+	text-align: center;
+	padding: 0 15px 0 0;
+	white-space: nowrap;
+}
+
+.subjects .column-name:first-child {
+	color: var(--color-text-secondary);
+	text-align: center;
+	padding: 0 15px;
+}
+
+.subjects .item {
+	background: var(--color-canvas-primary);
+}
+
+.subjects .item td {
+	max-width: 100%;
+	white-space: nowrap;
+	border-width: 1px 0;
+	padding: 10px 15px 10px 0;
+}
+
+.subjects .item td:nth-child(1) span {
+	color: var(--color-theme-primary);
+	text-align: center;
+}
+
+.subjects .item td:nth-child(4) span,
+.subjects .item td:nth-child(5) span {
+	color: var(--color-text-secondary);
+}
+
+.subjects .item td:nth-child(4) {
+	width: 99%;
+}
+
+.subjects .item td:first-child {
+	border-radius: 10px 0 0 10px;
+	border-width: 1px 0 1px 1px;
+	padding-left: 15px;
+}
+
+.subjects .item td:last-child {
+	border-radius: 0 10px 10px 0;
+	border-width: 1px 1px 1px 0;
+}
+
+.subjects .item td > * {
+	margin: auto 0;
+}
+
+.subjects .item span {
+	display: block;
+}
+
+.subjects .item .chart-container {
+    width: 80px;
+    height: 40px;
+}
+
+.subjects .item .gpa-change {
+	width: max-content;
+	min-width: 50px;
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+}
+
+.subjects .item .gpa-change.positive {
+	background: var(--color-theme-secondary);
+	color: var(--color-theme-primary);
+}
+
+.subjects .item .gpa-change.negative {
+	background: var(--color-canvas-secondary-dark);
+}
+
+.subjects .item .assessment-date {
+	text-align: center;
+	color: var(--color-text-secondary);
+}
+
+.subjects .item a.view {
+	display: flex;
+	border-radius: 10px;
+	box-sizing: border-box;
+	color: var(--color-text-secondary);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.subjects .item a.view:hover {
+	color: var(--color-theme-primary);
+}
+
+.subjects .item a.view > * {
+	margin: auto 0;
+}
+
+.subjects .item a.view svg {
+	width: 1.3em;
+	margin-left: 5px;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,18 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/component/filter-dropdown/style.css' %}">
+
+<script type="text/javascript" src="{% static 'dashboard/component/filter-dropdown/index.js' %}"></script>
+
+<div class="component c-filter-dropdown">
+	{% if input %}
+		{{ input }}
+	{% else %}
+		<input type="text" placeholder="{{ placeholder }}" id="{{ id }}">
+	{% endif %}
+	<div class="c-filter-dropdown__dropdown">
+		{% for key, value in dropdown_data.items %}
+			<a class="d-btn" data-value="{{ value }}">{{ key|truncatechars:100 }}</a>
+		{% endfor %}
+	</div>
+</div>

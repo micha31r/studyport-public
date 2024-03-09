@@ -1,0 +1,15 @@
+{% extends "playground/create.html" %}
+{% load icon%}
+
+{% block detail_content %}
+	{{ block.super }}
+	<a href="{% url 'playground:delete' pk=obj.pk %}" class="d-btn d-btn-icon delete">{% icon 'trash-2' %}</a>
+{% endblock %}
+
+{% block heading %}
+	Edit Playground
+{% endblock %}
+
+{% block submit-text %}
+	Save Changes
+{% endblock %}

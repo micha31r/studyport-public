@@ -1,0 +1,50 @@
+{% extends "detail.html" %}
+{% load static %}
+{% load icon %}
+
+{% block css %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/create/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'results/edit/main.css' %}">
+{% endblock %}
+
+{% block detail_content %}
+	<script type="text/javascript">
+		// Resize filter dropdown after google translate element loads
+		setTimeout(function() {window.dispatchEvent(new Event('resize'));}, 1000)
+	</script>
+
+	<h3 class="heading">
+		{% block heading %}
+			Create Goal
+		{% endblock %}
+	</h3>
+
+	<div class="template-name">
+		<img src="{% static 'icons8/leaderboard.svg' %}">
+		<h3>Set A Rank Score Goal</h3>
+	</div>
+	
+	<div class="card">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="field">
+				<h4>Rank Score</h4>
+				{{ form.target }}
+			</div>
+			<div class="field">
+				<h4>Subject Code <span class="badge">optional</span></h4>
+				<span>Filter by subject</span>
+				{% include 'dashboard/component/filter-dropdown.html' with dropdown_data=subject_data input=form.subject_code %}
+			</div>
+			<div class="field">
+				<h4>End Date</h4>
+				<span>Set a time limit for this goal</span>
+				{{ form.end_date }}
+			</div>
+			<button class="d-btn d-btn-primary-fill" type="submit">
+				Create Goal
+			</button>
+		</form>
+	</div>	
+{% endblock %}

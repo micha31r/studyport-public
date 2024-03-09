@@ -1,0 +1,81 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/list/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'goal/detail/main.css' %}">
+	<script type="module" src="{% static 'goal/detail/main.js' %}"></script>
+{% endblock %}
+
+{% block dashboard-heading %}
+	Goal Detail
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if student.show_mock_results or student.playground_is_active %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+			{% icon 'alert-circle' %}
+	        <span>Active playground and mock results will not affect goal progress</span>
+	    </div>
+	{% endif %}
+	{% if not goal_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No details to show</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block dashboard-widgets %}
+	{% if goal_data %}
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ raw_data|json_script:"raw-data" }}
+		{{ goal_data|json_script:"goal-data" }}
+
+		<div class="widget-row">
+			<div class="table-container">
+				<table cellpadding="0" cellspacing="0" class="goals">
+					<tbody data-theme="{% if obj.repeat == 'weekly' %}red{% elif obj.repeat == 'monthly' %}purple{% endif %}">
+						<tr>
+							<th colspan="2"><h3 class="group-name">Repeat {{ obj.repeat|capfirst }}</h3></th>
+							<th class="column-name">Progress</th>
+							<th class="column-name">Due</th>
+							<th class="column-name">Status</th>
+							<th class="column-name"></th>
+						</tr>
+						<tr class="item">
+							<td><span class="category"></span></td>
+							<td>{{ obj.get_field_display }} <span class="comparator">{{ obj.get_comparator_display }}</span> {{ obj.target }}</td>
+
+							{% if obj.comparator == "<" or obj.comparator == "<=" %}
+								<!-- Reverse progress for "less than" goals -->
+								<td><span class="progress-bar"><span class="bar" style="width:calc(({{ obj.target }}% - {{ obj.current }}%) / {{ obj.target }} * 100)"></span></span></td>
+							{% else %}
+								<td><span class="progress-bar"><span class="bar" style="width:calc({{ obj.current }}% / {{ obj.target }} * 100)"></span></span></td>
+							{% endif %}
+							
+							<td><span class="date">{% if obj.end_date %}{{ obj.end_date|date:"M d, Y" }}{% else %}Indefinite{% endif %}</span></td>
+							<td><span class="status" data-theme="{% if obj.status == 'ongoing' %}yellow{% elif obj.status == 'success' %}green{% elif obj.status == 'fail' %}red{% endif %}">{{ obj.get_status_display }}</span></td>
+							<td><a href="{% url 'goal:edit' pk=obj.pk %}?backlink={{ request.path }}">{% icon "edit" width="1.3em" height="1.3em" stroke-width="2.5px" %}</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="widget-row">
+			<div class="widget-row" id="widget-row-1">
+				<div class="widget">
+					<h3 class="heading">Overview</h3>
+					<canvas id="doughnut-chart1" width="1" height="1"></canvas>
+				</div>
+				<div class="widget">
+					<h3 class="heading">{{ obj.repeat|capfirst }} Records</h3>
+					<canvas id="bar-chart1" width="2" height="1"></canvas>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

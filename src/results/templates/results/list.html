@@ -1,0 +1,98 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'results/list/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Results
+{% endblock %}
+
+{% block dashboard-subpath-heading %}
+	Summary
+{% endblock %}
+
+{% block dashboard-subpath-options %}
+	<a class="d-btn" href="{% url 'results:list' %}">Summary</a>
+	<a class="d-btn" href="{% url 'playground:list' %}">Playground</a>
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/exam.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Results</h2>
+				<h3 class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:results' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block dashboard-widgets %}
+	<script type="text/javascript" src="{% static 'results/list/selection.js' %}"></script>
+
+	<div class="widget-row">
+		<a class="d-btn d-btn-primary-fill create" href="{% url 'results:create' %}?backlink={{ request.path }}"><span>Create New</span> {% icon 'plus' %}</a>
+
+		<div class="wrapper">
+			<div class="taskbar">
+				<h3>Entry Summary</h3>
+				<div>
+					<button class="c-popper-toggle d-btn d-btn-icon" data-index="actions">{% icon "more-vertical" %}</button>
+					<div class="dropdown" id="c-popper-actions" data-position="bottom" data-align="right" hidden>
+						<button class="d-btn" id="delete-selection" disabled>Delete Selected Items</button>
+					</div>
+				</div>
+				<span style="color: var(--color-text-secondary)">Filter by</span>
+				<form method="post">
+					{% csrf_token %}
+					{{ form.year }}
+					{{ form.wildcard }}
+					<button type="submit" class="d-btn d-btn-icon">{% icon 'search' %}</button>
+				</form>
+			</div>
+			<table cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr class="headings fields">
+						<th class="column-name"><input type="checkbox" class="c-checkbox" id="c-checkbox-controller"></th>
+						<th class="column-name">Title</th>
+						<th class="column-name">Subject</th>
+						<th class="column-name">Standard</th>
+						<th class="column-name">Grade</th>
+						<th class="column-name">Credits</th>
+						<th colspan="2" class="column-name">Date</th>
+					</tr>
+					{% for number, qs in data.items %}
+						<tr class="headings year-level">
+							<th class="column-name"></th>
+							<th class="column-name" colspan="7">Year {{ number }}</th>
+						</tr>
+						{% for obj in qs %}
+							<tr class="item">
+								<td><input type="checkbox" class="c-checkbox" data-pk="{{ obj.pk }}"></td>
+
+								<td><a href="{% url 'results:edit' pk=obj.pk %}?backlink={{ request.path }}">{{ obj.assessment.title|truncatechars:50 }}</a></td>
+
+								<td><span class="notranslate">{{ obj.subject.subject_code }}</span></td>
+
+								<td><span class="notranslate">{{ obj.assessment.assessment_code }}</span></td>
+								
+								<td><span class="notranslate">{% if obj.grade %}{{ obj.grade|capfirst }}{% else %}--{% endif %}</span></td>
+
+								<td><span>{{ obj.assessment.credits }}</span></td>
+
+								<td><span class="date">{{ obj.date|date:"M d, Y" }}</span></td>
+
+								<td><a href="{% url 'results:edit' pk=obj.pk %}?backlink={{ request.path }}">{% icon "edit" width="1.3em" height="1.3em" stroke-width="2.5px" %}</a></td>
+							</tr>
+						{% endfor %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+.template-name {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 20px;
+	border: 1px solid var(--color-border-primary);
+	border-radius: 15px;
+	padding: 10px;
+	margin: 0 0 20px;
+}
+
+.template-name img {
+    display: block;
+    height: 50px;
+}
+
+.template-name h3 {
+	margin: auto 0;
+}
+
+.content .field h4 .badge {
+	font-size: 0.8em;
+	display: inline;
+	width: max-content;
+	border-radius: 4px;
+	background: var(--color-theme-secondary);
+	color: var(--color-theme-primary);
+	padding: 0 3px;
+}

@@ -1,0 +1,214 @@
+button.create {
+	width: max-content;
+	border: 1px solid var(--color-theme-secondary);
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+button.create svg {
+	width: 1.5em;
+	margin-left: 10px;
+}
+
+/* Shortcuts */
+
+.goal-templates {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 20px;
+}
+
+.goal-templates .card {
+	background: var(--color-canvas-primary);
+	border: 1px solid transparent;
+	border-radius: 15px;
+	padding: 15px;
+	transition: border 0.2s;
+	cursor: pointer;
+}
+
+.goal-templates .card:hover {
+	border-color: var(--color-border-primary);
+}
+
+.goal-templates .card > * {
+	margin: 0 0 15px;
+	text-align: center;
+}
+
+.goal-templates .card > *:last-child {
+	margin: 0;
+}
+
+.goal-templates .card img,
+.goal-templates .card svg {
+	display: block;
+	height: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.goal-templates .card .description {
+	color: var(--color-text-secondary);
+}
+
+/* Goal List */
+
+.table-container {
+	overflow: auto;
+}
+
+table.goals  {
+	table-layout: fixed;
+	border-spacing: 0 8px;
+}
+
+.goals tbody:not(:last-child)::after {
+	content: '';
+	display: block;
+	height: 20px;
+}
+
+.goals .group-name {
+	width: max-content;
+	color: rgb(var(--color-theme-base));
+	margin: 0;
+}
+
+.goals .column-name {
+	color: var(--color-text-secondary);
+	text-align: center;
+	padding: 0 15px 0 0;
+}
+
+.goals .item {
+	background: var(--color-canvas-primary);
+}
+
+/* Hover effect for repeating goals */
+
+.goals tbody:not(:first-child) .item {
+	cursor: pointer;
+}
+
+.goals tbody:not(:first-child) .item:hover td {
+	border-color: rgb(var(--color-theme-base));
+}
+
+.goals .item td {
+	max-width: 100%;
+	white-space: nowrap;
+	border: 1px solid transparent;
+	border-width: 1px 0;
+	padding: 10px 15px 10px 0;
+	transition: border 0.2s;
+}
+
+.goals .item td:first-child {
+	border-radius: 10px 0 0 10px;
+	border-width: 1px 0 1px 1px;
+	padding-left: 15px;
+}
+
+.goals .item td:nth-child(3) {
+	width: 99%;
+}
+
+.goals .item td:last-child {
+	border-radius: 0 10px 10px 0;
+	border-width: 1px 1px 1px 0;
+}
+
+.goals .item td > * {
+	margin: auto 0;
+}
+
+.goals .item a, .goals .item a > * {
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.goals .item a:hover, .goals .item a:hover > * {
+	color: var(--color-theme-primary);
+}
+
+.goals .item .comparator, .goals .item .date {
+	color: var(--color-text-secondary);
+}
+
+.goals .item .date {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.goals .item .progress-bar {
+	max-width: none;
+	white-space: unset;
+	display: block;
+	width: 200px;
+	height: 7px;
+	border-radius: 10px;
+	background: var(--color-canvas-secondary-dark);
+	margin: auto;
+}
+
+.goals .item .progress-bar .bar {
+	display: block;
+	width: 0;
+	max-width: 100%;
+	height: 7px;
+	border-radius: 10px;
+	background: rgba(var(--color-theme-base));
+}
+
+.goals .item .category {
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 10px;
+	background: rgb(var(--color-theme-base));
+}
+
+.goals .item .status {
+	display: block;
+	background: rgba(var(--color-theme-base), var(--color-theme-secondary-opacity));
+	border-radius: 8px;
+	color: rgb(var(--color-theme-base));
+	padding: 6px 10px;
+	text-align: center;
+}
+
+.goals .item svg {
+	color: var(--color-text-secondary);
+}
+
+@media only screen and (max-width: 850px) {
+	.goal-templates {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media only screen and (max-width: 430px) {
+	.goal-templates {
+		grid-template-columns: 1fr;
+	}
+	.goal-templates .card {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 10px;
+	}
+	.goal-templates .card img, .goal-templates .card svg {
+		grid-row: 1 / 3;
+		margin: auto 0;
+	}
+	.goal-templates .card > * {
+		margin: 0;
+		text-align: left;
+	}
+}
+
+
+
+
+

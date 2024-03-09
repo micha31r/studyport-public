@@ -1,0 +1,62 @@
+nav .dashboard-path .slash, 
+nav .dashboard-path .subpath,
+nav .subpath-dropdown-container {
+	/* Set this to initial to show subpaths */
+	display: initial;
+}
+
+canvas {
+	max-height: 300px;
+}
+
+#widget-row1 {
+	grid-template-columns: 1fr 1fr 0.5fr;
+}
+
+.widget.historic-gpa .container {
+	height: 100%;
+	max-height: 300px;
+	border-radius: 10px;
+	overflow: auto;
+}
+
+.widget.historic-gpa .heading {
+	text-align: center;
+}
+
+.widget.historic-gpa .amount {
+	margin: 0;
+	text-align: center;
+}
+
+.widget.historic-gpa .container .amount:first-child {
+	font-size: 2em;
+	font-weight: bold;
+	color: var(--color-theme-primary);
+	text-shadow: 0 15px 40px rgba(var(--color-theme-base), 0.4);
+}
+
+.widget.historic-gpa .date {
+	color: var(--color-text-secondary);
+	text-align: center;
+	margin: 0 0 20px;
+}
+
+.widget.historic-gpa .date:last-child {
+	margin: 0;
+}
+
+@media only screen and (max-width: 950px) {
+	#widget-row1 {
+    	grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media only screen and (max-width: 750px) {
+	#widget-row1 {
+    	grid-template-columns: 1fr;
+	}
+}
+
+
+

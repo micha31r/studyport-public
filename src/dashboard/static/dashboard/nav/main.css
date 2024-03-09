@@ -1,0 +1,269 @@
+:root {
+	--popup-nav-width: 280px;
+	--popup-nav-offset: 90px;
+	--nav-height: 0px;
+}
+
+nav {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 20px;
+	position: sticky;
+	top: 0;
+	background: var(--color-canvas-secondary-light);
+	padding: 10px 20px;
+	overflow: auto;
+	z-index: 200;
+}
+
+nav .left, nav .middle, nav .right {
+	display: flex;
+}
+
+nav .left > *,
+nav .middle > *,
+nav .right > * {
+	margin: auto 0;
+}
+
+nav .dashboard-path {
+	width: max-content;
+	margin: auto 10px auto 0;
+	line-height: 1.4em;
+}
+
+nav .dashboard-path .slash {
+	font-weight: bold;
+	color: var(--color-text-secondary);
+}
+
+nav .dashboard-path .subpath {
+	color: var(--color-theme-primary);
+}
+
+nav .dashboard-path .slash, 
+nav .dashboard-path .subpath,
+nav .subpath-dropdown-container {
+	/* Set this to initial to show subpaths */
+	display: none;
+}
+
+/* Tab dropdown */
+
+nav .shortcuts {
+	display: grid;
+	grid-template-columns: repeat(4, max-content);
+	gap: 10px;
+}
+
+.shortcuts-popper-toggle {
+	display: none;
+}
+
+nav .dropdown {
+	display: grid;
+	gap: 5px;
+	padding: 5px;
+}
+
+nav #c-popper-path {
+	min-width: 150px;
+}
+
+nav #c-popper-path a {
+	font-size: 1.17em;
+}
+
+nav #c-popper-path a.active-link {
+	color: var(--color-text-secondary);
+	background: var(--color-canvas-secondary-light);
+}
+
+[data-mode="light"] .dark-mode-toggle svg.sun {
+	display: none;
+}
+
+[data-mode="dark"] .dark-mode-toggle svg.moon {
+	display: none;
+}
+
+nav .profile {
+	display: grid;
+	grid-template-columns: max-content minmax(50px, max-content) max-content;
+	gap: 10px;
+	border: 1px solid var(--color-border-primary);
+	border-radius: 15px;
+	background: var(--color-canvas-primary);
+	padding: 5px 10px 5px 5px;
+	transition: border-color 0.2s;
+	cursor: pointer;
+}
+
+nav .profile:hover, nav .profile[data-active="true"] {
+	border-color: var(--color-theme-primary);
+}
+
+nav .profile > * {
+	margin: auto 0;
+}
+
+nav .profile .img-wrapper {
+	position: relative;
+	display: flex;
+	width: 35px;
+	height: 35px;
+	border-radius: 10px;
+	background: var(--color-canvas-secondary);
+	box-sizing: border-box;
+	overflow-y: hidden;
+}
+
+nav .profile .img-wrapper img {
+	width: 90%;
+	height: 90%;
+	margin: auto;
+}
+
+nav .profile .img-wrapper[data-indicator="true"]::after {
+	content: '';
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	background: var(--color-theme-primary);
+}
+
+nav .profile button {
+	display: flex;
+	color: var(--color-text-primary);
+}
+
+nav #c-popper-account {
+	min-width: 200px;
+}
+
+nav #c-popper-account a svg {
+	margin-right: 10px;
+}
+
+
+nav #c-popper-account a svg {
+	margin-right: 10px;
+}
+
+nav .notification-icon-container {
+	position: relative;
+	display: flex;
+}
+
+nav .notification-icon-container[data-indicator="true"]::after {
+	content: '';
+	position: absolute;
+	top: -2px;
+	right: 4px;
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	background: var(--color-theme-primary);
+}
+
+#c-popper-focus {
+	padding: 5px;
+}
+
+#c-popper-focus .input-container {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 5px;
+	margin: 0 0 5px;
+}
+
+#c-popper-focus input {
+	width: 100%;
+	height: 40px;
+	border: 1px solid var(--color-border-primary);
+	border-radius: 10px;
+	background: transparent;
+	box-sizing: border-box;
+	padding: 10px 12px 10px 0;
+	text-indent: 12px;
+}
+
+#c-popper-focus button[type="submit"] {
+	display: block;
+	width: 100%;
+}
+
+.sub-nav {
+	display: none;
+	position: sticky;
+	top: 0;
+	justify-content: space-between;
+	background: var(--color-canvas-primary);
+	padding: 10px 20px;;
+	z-index: 400;
+}
+
+.sub-nav .brand {
+	display: flex;
+	margin: 0;
+}
+
+.sub-nav .brand svg {
+	width: auto;
+	height: 1.8em;
+	margin: auto 10px auto 0;
+}
+
+.sub-nav .brand span {
+	font-weight: bold;
+	color: var(--color-theme-primary);
+	margin: auto 0;
+}
+
+@media only screen and (max-width: 850px) {
+	.shortcuts-popper-toggle {
+		display: flex;
+	}
+}
+
+@media only screen and (max-width: 550px) {
+	nav {
+		position: static;
+	}
+	nav .profile {
+		display: block;
+		border-color: transparent;
+		border-radius: 100%;
+		background: transparent;
+		padding: 0;
+		cursor: pointer;
+	}
+	nav .profile .img-wrapper {
+		width: 45px;
+		height: 45px;
+		border-radius: 100%;
+		background: var(--color-canvas-primary);
+		padding: 5px;
+	}
+	nav .profile .name, nav .profile svg {
+		display: none;
+	}
+	.sub-nav {
+		display: flex;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	nav {
+		gap: 15px;
+	}
+	nav .dashboard-path {
+		font-size: 1.3em;
+	}
+}
+
+
+

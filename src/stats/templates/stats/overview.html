@@ -1,0 +1,87 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'stats/pages/overview/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Overview
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if not raw_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No results</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/speed.svg' %}">
+			<div class="content">
+				<h2 class="heading">Overview</h2>
+				<h3 class="description">This page shows an overview of your academic information, such as rank score, Grade Point Average (GPA), ongoing goals, upcoming assessments, and credits gained of each grade level.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:overview' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block dashboard-widgets %}
+	{% if raw_data %}
+		<script type="module" src="{% static 'stats/pages/overview/main.js' %}"></script>
+
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ raw_data|json_script:"raw-data" }}
+		{{ rank_score_data|json_script:"rank-score-data" }}
+
+		<div class="widget-row" id="widget-row2">
+			<div class="widget">
+				<h3 class="heading">Credits Gained</h3>
+				<canvas id="doughnut-chart1" width="1" height="1"></canvas>
+			</div>
+			<div class="gpa-rankscore-grid">
+				<div class="widget gpa">
+					<h3 class="heading">GPA</h3>
+					<h1 class="amount">{% if gpa %}{{ gpa.get_gpa|floatformat:3 }}{% endif %}</h1>
+				</div>
+				<div class="widget rankscore">
+					<h3 class="heading">Rank Score</h3>
+					<h1 class="amount" id="rank-score"></h1>
+				</div>
+			</div>
+			<div class="widget">
+				<h3 class="heading">Ongoing Goals</h3>
+				<div class="list-container">
+					{% for item in goals %}
+						<div class="list__item" data-theme="{% if item.repeat == 'weekly' %}red{% elif item.repeat == 'monthly' %}purple{% endif %}">
+							<span class="category"></span>
+							<span>{{ item.get_field_display }} <span class="comparator">{{ item.get_comparator_display }}</span> {{ item.target }}</span>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="widget">
+				<h3 class="heading">Assessment Results</h3>
+				<canvas id="line-chart1" width="3" height="1"></canvas>
+			</div>
+			<div class="widget">
+				<h3 class="heading">Upcoming Assessments</h3>
+				<div class="card-container">
+					{% for item in empty_results %}
+						<div class="card__item">
+							<h3 class="assessment-code">{{ item.assessment.assessment_code|upper }}</h3>
+							<p class="title">{{ item.assessment.title|truncatewords:15 }}</p>
+							<p class="date">{{ item.date|date:"M d" }}</p>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,152 @@
+nav .dashboard-path .slash, 
+nav .dashboard-path .subpath,
+nav .subpath-dropdown-container {
+	/* Set this to initial to show subpaths */
+	display: initial;
+}
+
+a.create {
+	width: max-content;
+	border: 1px solid var(--color-theme-secondary);
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+a.create svg {
+	width: 1.5em;
+	margin-left: 10px;
+}
+
+.wrapper {
+	width: 100%;
+	border: 1px solid var(--color-border-primary);
+	border-radius: 20px;
+	background: var(--color-canvas-primary);
+	overflow: auto;
+}
+
+.taskbar {
+	position: sticky;
+	left: 0;
+	display: grid;
+	grid-template-columns: max-content 1fr max-content auto;
+	gap: 15px;
+	padding: 0 15px;
+	overflow: auto;
+}
+
+.taskbar > * {
+	margin: auto 0;
+	padding: 12px 0;
+}
+
+.taskbar form {
+	display: grid;
+	grid-template-columns: repeat(3, max-content);
+	gap: 10px;
+}
+
+.taskbar form .dropdown {
+	padding: 5px;
+}
+
+.taskbar form .dropdown #delete-selection[disabled] {
+	color: var(--color-text-secondary);
+}
+
+.taskbar form .dropdown #delete-selection[disabled]:hover {
+	background: var(--color-canvas-secondary);
+}
+
+.taskbar form input, .taskbar form select {
+	height: max-content;
+	border: 0;
+	border-radius: 10px;
+	border: 1px solid var(--color-border-primary);
+	background: var(--color-canvas-secondary);
+	box-sizing: border-box;
+	padding: 8px 12px;
+	line-height: 1.6em;
+}
+
+.taskbar form input::placeholder {
+	color: var(--color-text-secondary);
+}
+
+.taskbar form button {
+	margin: auto 0;
+}
+
+table {
+	table-layout: fixed;
+	width: -webkit-fill-available;
+}
+
+.headings.fields * {
+	border: 1px solid var(--color-border-primary);
+	border-width: 1px 0;
+}
+
+.headings.year-level {
+	background: var(--color-theme-secondary-light);
+}
+
+.column-name {
+	color: var(--color-theme-primary);
+	text-align: left;
+	padding: 12px 15px;
+}
+
+.column-name input {
+	display: block;
+}
+
+.item:nth-child(2n+2) {
+	background: var(--color-canvas-secondary-light);
+}
+
+.item td {
+	max-width: 100%;
+	white-space: nowrap;
+	border-width: 1px 0;
+	padding: 10px 15px;
+}
+
+.item:last-child td {
+	border-bottom: 0;
+}
+
+.item td input {
+	display: block;
+}
+
+.item td a {
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.item td a:hover {
+	color: var(--color-theme-primary);
+}
+
+/*.item td:nth-child(3) {
+	width: 99%;
+}*/
+
+.item td > * {
+	margin: auto 0;
+}
+
+.item svg {
+	color: var(--color-text-secondary);
+	transition: color 0.2s;
+}
+
+.item svg:hover {
+	color: var(--color-theme-primary);
+}
+
+#c-popper-actions {
+	padding: 5px;
+}
+

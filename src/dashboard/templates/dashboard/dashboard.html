@@ -1,0 +1,266 @@
+{% load static %}
+{% load icon %}
+{% load tz %}
+{% localtime on %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="{% if user.student %}{{ student.color_settings.theme }}{% elif user.staff %}{{ staff.color_settings.theme }}{% else %}blue{% endif %}" data-mode="light">
+    <head>
+    	<!-- Icons used are made by: -->
+        
+        <!-- Bootstrap Icons -->
+        <!-- https://icons.getbootstrap.com/ -->
+        <!-- https://github.com/twbs/icons/blob/main/LICENSE.md | MIT License -->
+    	
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block title %}
+        	<title class="notranslate">Dashboard · studyport</title>
+        {% endblock %}
+
+        <!-- Base css(s) -->
+        <link rel="stylesheet" type="text/css" href="{% static 'base/normalize.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'base/themes.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'base/main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'base/loader.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'dashboard/component/popper/style.css' %}">
+
+        <!-- Adobe fonts -->
+        <link rel="stylesheet" href="https://use.typekit.net/hpn4avb.css">
+
+        <!-- 
+            font-family: proxima-nova, sans-serif;
+         -->
+
+        <link rel="stylesheet" type="text/css" href="{% static 'dashboard/main.css' %}">
+
+		<!-- Dashboard nav css -->
+		<link rel="stylesheet" type="text/css" href="{% static 'dashboard/nav/main.css' %}">
+
+		<!-- Favicon -->
+		<link rel="icon" href="{% static 'base/favicon.png' %}">
+		
+		{% block dashboard-css %}
+		{% endblock %}
+    </head>
+    <body>
+    	<!-- Loading screen image -->
+    	<div id="loader">
+        	<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="95" stroke="var(--color-canvas-secondary)" stroke-width="10"/><path d="M100 195C47.533 195 5 152.467 5 100" stroke="var(--color-theme-primary)" stroke-width="10"/></svg>
+        </div>
+        
+        <!-- Loader js -->
+        <script type="text/javascript" src="{% static 'base/loader.js' %}"></script>
+
+        <!-- Dark mode js -->
+        <script type="text/javascript" src="{% static 'base/dark-mode.js' %}"></script>
+
+        <!-- Main js -->
+        <script type="text/javascript" src="{% static 'base/main.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'dashboard/main.js' %}"></script>
+
+        <script type="text/javascript" src="{% static 'dashboard/nav/main.js' %}"></script>
+
+        <script type="module" src="{% static 'dashboard/component/popper/index.js' %}"></script>
+
+        <!-- Color Data -->
+		{{ chart_palette|json_script:"chart-palette" }}
+		{{ chart_color_data|json_script:"chart-color-data" }}
+		{{ theme_data|json_script:"theme-data" }}
+
+        {% block dashboard-scripts %}
+        {% endblock %}
+
+        {% block content %}
+			<div class="dashboard">
+				<div class="menu-overflow-container overflow-container">
+					<div class="menu">
+						<h2 class="brand">
+							<svg width="403" height="403" viewBox="0 0 403 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M201.478 402.934C90.3381 402.934 0.241664 312.838 0.241669 201.698C0.241674 90.5584 90.3381 0.462031 201.478 0.462036C312.617 0.462041 402.714 90.5585 402.714 201.698C402.714 312.838 312.617 402.934 201.478 402.934Z" fill="var(--color-canvas-primary)"/>
+							<path d="M165.598 190.977V258.787H93.8398V371.758C37.5826 336.076 0.241669 273.248 0.241669 201.698C0.241674 90.5584 90.3381 0.462031 201.478 0.462036C312.617 0.462041 402.714 90.5585 402.714 201.698C402.714 273.248 365.373 336.076 309.115 371.758V123.167H237.357V190.977H165.598Z" fill="var(--color-theme-primary)"/>
+							</svg>
+							<span class="notranslate">studyport</span>
+						</h2>
+					
+						<div class="link-container">
+							{% block dashboard-menu %}
+							{% endblock %}
+							<a hidden href="{% url 'usermgmt:logout' %}">
+								{% icon "log-out" %}
+								Logout
+							</a>
+						</div>
+						
+						<div class="actions">
+							<button class="d-btn d-btn-icon c-popper-toggle translate-popper-toggle" data-index="translate">{% icon 'globe' %}</button>
+
+							<div id="c-popper-translate" data-position="top" data-align="left"></div>
+
+							<div id='google_translate_element'>
+								<svg viewBox="0 0 24 24" width="1.3em" height="1.3em" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)"><path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/><path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.379 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/><path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/><path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.099 -17.884 43.989 -14.754 43.989 Z"/></g></svg>
+							</div>
+						  	<script>
+								function googleTranslateElementInit() {
+								new google.translate.TranslateElement({
+								pageLanguage: 'en',
+								autoDisplay: 'true',
+								layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+								}, 'google_translate_element');
+								}
+							</script>
+							<script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+						</div>
+					</div>
+				</div>
+				
+				<div class="widgets-overflow-container overflow-container">
+					<div class="widgets">
+						<div class="sub-nav">
+							<h2 class="brand">
+								<svg width="403" height="403" viewBox="0 0 403 403" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M201.478 402.934C90.3381 402.934 0.241664 312.838 0.241669 201.698C0.241674 90.5584 90.3381 0.462031 201.478 0.462036C312.617 0.462041 402.714 90.5585 402.714 201.698C402.714 312.838 312.617 402.934 201.478 402.934Z" fill="var(--color-canvas-primary)"/>
+								<path d="M165.598 190.977V258.787H93.8398V371.758C37.5826 336.076 0.241669 273.248 0.241669 201.698C0.241674 90.5584 90.3381 0.462031 201.478 0.462036C312.617 0.462041 402.714 90.5585 402.714 201.698C402.714 273.248 365.373 336.076 309.115 371.758V123.167H237.357V190.977H165.598Z" fill="var(--color-theme-primary)"/>
+								</svg>
+								<span class="notranslate">studyport</span>
+							</h2>
+							<button id="menu-toggle" class="d-btn d-btn-icon">{% icon 'menu' %}</button>
+						</div>
+
+						<nav>
+							<div class="left">
+								<h2 class="dashboard-path">
+									<span class="root">
+										{% block dashboard-heading %}
+										{% endblock %}
+									</span>
+									<span class="slash">/</span>
+									<span class="subpath">
+										{% block dashboard-subpath-heading %}
+										{% endblock %}
+									</span>
+								</h2>
+								<div class="subpath-dropdown-container">
+									<button class="d-btn d-btn-icon c-popper-toggle" data-index="path">
+										{% icon "chevron-down" %}
+									</button>
+									<div class="dropdown" id="c-popper-path" data-position="bottom" data-align="right" hidden>
+										{% block dashboard-subpath-options %}
+										{% endblock %}
+									</div>
+								</div>
+							</div>
+
+							<div class="middle">
+								<div class="shortcuts">
+									<button class="d-btn d-btn-icon c-popper-toggle" data-index="focus">
+										{% icon "clock" %}
+									</button>
+
+									<div id="c-popper-focus" data-position="bottom" data-align="right" hidden>
+										<form method="post" action="{% url 'focus:set' %}?backlink={{ request.path }}">
+											{% csrf_token %}
+											<div class="input-container">
+												<script type="text/javascript">
+													function add(n) {
+														let elem = document.querySelector("#focus-input");
+														elem.value = Number(elem.value) + n;
+														return false;
+													}
+												</script>
+												<button onclick="return add(-1)" class="d-btn d-btn-icon">{% icon 'minus' %}</button>
+												<input type="number" name="duration" id="focus-input" placeholder="Minutes" value="{{ student.get_current_focus_period.to_minutes }}">
+												<button onclick="return add(1)" class="d-btn d-btn-icon">{% icon 'plus' %}</button>
+											</div>
+											<button class="d-btn d-btn-primary-fill" type="submit">Save</button>
+										</form>
+									</div>
+
+									<button class="d-btn d-btn-icon" {% if student.playground_is_active %}data-active="true"{% endif %} onclick="window.location.href='{% if student.playground_is_active %}{% url 'playground:deactivate' %}?backlink={{ request.path }}{% else %}{% url 'playground:activate' %}?backlink={{ request.path }}{% endif %}'">{% icon "package" %}</button>
+
+									<button class="d-btn d-btn-icon" {% if student.show_mock_results %}data-active="true"{% endif %} onclick="window.location.href='{% if student.show_mock_results %}{% url 'settings:hide-mock' %}?backlink={{ request.path }}{% else %}{% url 'settings:show-mock' %}?backlink={{ request.path }}{% endif %}'">{% icon "copy" %}</button>
+
+									<button class="d-btn d-btn-icon dark-mode-toggle">
+										{% icon "moon" class="moon" %}
+										{% icon "sun" class="sun" %}
+									</button>
+								</div>
+
+								<button class="d-btn d-btn-icon c-popper-toggle shortcuts-popper-toggle" data-index="shortcuts">{% icon 'more-horizontal' %}</button>
+
+								<div class="dropdown" id="c-popper-shortcuts" data-position="bottom" data-align="right"></div>
+							</div>
+
+							<div class="right">
+								<div class="profile c-popper-toggle" data-index="account">
+									<span class="img-wrapper" {% if user.notifications.unread.count > 0 %}data-indicator="true"{% endif %}>
+										<img alt="profile image" src="{{ student.get_profile_url }}">
+									</span>
+									<span class="name">{{ request.user.first_name }}</span>
+									{% icon "chevron-down" width="1.3em" height="1.3em" %}
+								</div>
+								<div class="dropdown" id="c-popper-account" data-position="bottom" data-align="right" hidden>
+									<a class="d-btn" href="{% url 'settings:app' %}?backlink={{ request.path }}">{% icon "user" width="1.3em" height="1.3em" %} <span>Manage Account</span></a>
+
+									<a class="d-btn" href="{% url 'docs:catalog' %}">{% icon "help-circle" width="1.3em" height="1.3em" %} <span>Help</span></a>
+
+									<a class="d-btn" href="{% url 'dashboard:notification' %}?backlink={{ request.path }}">
+										<div class="notification-icon-container" {% if user.notifications.unread.count > 0 %}data-indicator="true"{% endif %}>
+											{% icon "bell" width="1.3em" height="1.3em" %}
+										</div>
+										<span>Notifications</span>
+									</a>
+
+									<a class="d-btn" href="{% url 'usermgmt:logout' %}">{% icon "log-out" width="1.3em" height="1.3em" %} <span>Sign Out</span></a>
+								</div>
+							</div>
+							<!-- <button class="collapse">
+					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-filter-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14 10.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5zm0-3a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0 0 1h11a.5.5 0 0 0 .5-.5z"/></svg>
+					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+					        </button> -->
+						</nav>
+
+						<div class="grid">
+							<div class="d-message-container">
+								{% block messages %}
+								    {% if messages %}
+								        {% for message in messages %}
+								            <div class="d-message d-message-{{ message.tags }}" data-theme="{% if message.tags == 'success' %}green{% elif message.tags == 'error' %}red{% else %}yellow{% endif %}">
+								                {% if message.tags == "success" %}
+								                	{% icon 'check-circle' %}
+								                {% elif message.tags == "error" %}
+								                	{% icon 'x-circle' %}
+								                {% else %}
+								                	{% icon 'alert-circle' %}
+								                {% endif %}
+								                <span>{{ message|safe }}</span>
+								            </div>
+								        {% endfor %}
+								    {% endif %}
+								{% endblock %}
+							</div>
+							<div class="widgets-container d-container">
+								{% block dashboard-about %}
+								{% endblock %}
+
+								{% block dashboard-widgets %}
+								{% endblock %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="popup-nav">
+		        <div>
+		    	</div>
+		    </div>
+        {% endblock %}
+
+        {% include "unisearch.html" %}
+    </body>
+</html>
+
+{% endlocaltime %}

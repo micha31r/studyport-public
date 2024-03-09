@@ -1,0 +1,38 @@
+[id*="c-popup"] {
+	display: flex;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	border: 2px solid var(--color-theme-primary);
+	background: rgba(0,0,0,0.2);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	box-sizing: border-box;
+	padding: 25px;
+	opacity: 0;
+	overflow-y: scroll;
+	transition: opacity 0.3s;
+	visibility: hidden;
+	z-index: 201;
+}
+
+[data-mode="dark"] [id*="c-popup"] {
+	background: rgba(255,255,255,0.15);
+}
+
+[id*="c-popup"] > .c-popup__container {
+	width: 100%;
+	max-width: 300px;
+	border-radius: 20px;
+	background: var(--color-canvas-primary);
+	padding: 25px;
+	margin: auto;
+}
+
+.c-popup__container__heading {
+	color: var(--color-theme-primary);
+	margin: 0 0 20px;
+}
+

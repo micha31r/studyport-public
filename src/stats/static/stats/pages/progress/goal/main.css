@@ -1,0 +1,144 @@
+nav .dashboard-path .slash, 
+nav .dashboard-path .subpath,
+nav .subpath-dropdown-container {
+	/* Set this to initial to show subpaths */
+	display: initial;
+}
+
+canvas {
+	height: 100%;
+	max-height: 300px;
+}
+
+canvas#doughnut-chart1 {
+	max-width: 200px;
+	margin: auto;
+}
+
+#widget-row-1 {
+	grid-template-columns: 1fr 0.5fr;
+}
+
+#widget-row-2 {
+	grid-template-columns: 1fr 0.5fr;
+}
+
+#widget-row-3 {
+	grid-template-columns: 1fr 0.5fr;
+}
+
+.progress-grid {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 15px;
+	width: 500px;
+	max-width: 100%;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.progress-grid .scale {
+	position: relative;
+	height: 1em;
+	color: var(--color-text-secondary);
+}
+
+.progress-grid .scale span {
+	position: absolute;
+	transform: translateX(-50%);
+}
+
+.progress-grid .scale span:nth-child(1) {
+	left: 0%;
+}
+
+.progress-grid .scale span:nth-child(2) {
+	left: 25%;
+}
+
+.progress-grid .scale span:nth-child(3) {
+	left: 50%;
+}
+
+.progress-grid .scale span:nth-child(4) {
+	left: 75%;
+}
+
+.progress-grid .scale span:nth-child(5) {
+	left: 100%;
+}
+
+.progress-bar {
+	/*max-width: 500px;*/
+	white-space: unset;
+	display: block;
+	width: 100%;
+	height: 7px;
+	border-radius: 10px;
+	background: var(--color-canvas-secondary-dark);
+	margin: auto;
+}
+
+.progress-bar .bar {
+	display: block;
+	width: 0;
+	max-width: 100%;
+	height: 7px;
+	border-radius: 10px;
+	background: rgba(var(--color-theme-base));
+}
+
+.early-completion .amount {
+	font-weight: bold;
+    font-size: 4em;
+    line-height: 2rem;
+    margin: 0 !important;
+}
+
+.early-completion .center {
+	margin: auto !important;
+}
+
+@media only screen and (max-width: 840px) {
+	.streak__summary {
+	    gap: 20px !important;
+	}
+	.streak__summary .amount {
+		font-size: 3em !important;
+	}
+	.early-completion .amount {
+		font-size: 3em;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	#widget-row-1 {
+    	grid-template-columns: 1fr;
+	}
+	#widget-row-2 {
+    	grid-template-columns: 1fr;
+	}
+	#widget-row-3 {
+    	grid-template-columns: 1fr;
+	}
+	canvas#doughnut-chart1 {
+		max-height: 200px;
+		margin: 0 auto 15px;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	.streak__summary {
+	    grid-template-columns: 1fr !important;
+	    gap: 0 !important;
+	}
+}
+
+@media only screen and (max-width: 400px) {
+	.streak .streak__dot {
+	    width: 12px !important;
+	    height: 12px !important;
+	}
+}
+
+

@@ -1,0 +1,96 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'stats/pages/progress/goal/main.css' %}">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'stats/pages/progress/goal/streak/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Progress
+{% endblock %}
+
+{% block dashboard-subpath-heading %}
+	Goal
+{% endblock %}
+
+{% block dashboard-subpath-options %}
+	<a class="d-btn" href="{% url 'stats:progress-academic' %}">Academic</a>
+	<a class="d-btn" href="{% url 'stats:progress-goal' %}">Goal</a>
+	<a class="d-btn" href="{% url 'stats:progress-focus' %}">Focus Period</a>
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/advance.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Goal Progress</h2>
+				<h3 class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:progress-goal' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block messages %}
+	{{ block.super }}
+	{% if not goal_data %}
+		<div class="d-message d-message-{{ message.tags }}" data-theme="yellow">
+	        <span>No Goal Data</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+{% block link-progress %}
+	class="active-link"
+{% endblock %}
+
+{% block dashboard-widgets %}
+	<script type="module" src="{% static 'stats/pages/progress/goal/main.js' %}"></script>
+		
+	{% if goal_data %}
+		<!-- Pass data as JSON -->
+		{{ student_data|json_script:"student-data" }}
+		{{ goal_data|json_script:"goal-data" }}
+
+		<div class="widget-row" id="widget-row-1">
+			<div class="widget">
+				<!-- How many goals are over and under achieved and by how much -->
+				<h3 class="heading">Performance Summary</h3>
+				<div class="progress-grid">
+						<span class="label">Under</span>
+						<span class="progress-bar"><span class="bar" id="under-bar"></span></span>
+						<span class="label">Over</span>
+						<span class="progress-bar"><span class="bar" id="over-bar"></span></span>
+						<span></span>
+						<div class="scale"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+				</div>
+				<!-- <canvas id="bar-chart3"></canvas> -->
+			</div>
+			<div class="widget early-completion">
+				<!-- Total hours this week -->
+				<h3 class="heading">Average Early Completion</h3>
+				<div class="center">
+					<h1 class="amount"></h1>
+					<h3>Days</h3>
+				</div>
+			</div>
+		</div>
+		<div class="widget-row" id="widget-row-2">
+			<div class="widget">
+				<!-- Time series of goals completed -->
+				<h3 class="heading">Goals Completed</h3>
+				<canvas id="bar-chart2"></canvas>
+			</div>
+			<div class="widget">
+				<!-- How many out of total are completed -->
+				<h3 class="heading">Progress</h3>
+				<canvas id="doughnut-chart1"></canvas>
+			</div>
+		</div>
+
+	{% endif %}
+{% endblock %}

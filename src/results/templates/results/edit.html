@@ -1,0 +1,15 @@
+{% extends "results/create.html" %}
+{% load icon%}
+
+{% block detail_content %}
+	{{ block.super }}
+	<a href="{% url 'results:delete' pks=obj.pk %}" class="d-btn d-btn-icon delete">{% icon 'trash-2' %}</a>
+{% endblock %}
+
+{% block heading %}
+	Edit Result
+{% endblock %}
+
+{% block submit-text %}
+	Save Changes
+{% endblock %}

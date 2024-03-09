@@ -1,0 +1,71 @@
+{% extends 'stats/base.html' %}
+{% load static %}
+{% load icon %}
+
+{% block dashboard-css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'playground/list/main.css' %}">
+{% endblock %}
+
+{% block dashboard-heading %}
+	Results
+{% endblock %}
+
+{% block dashboard-subpath-heading %}
+	Playground
+{% endblock %}
+
+{% block dashboard-subpath-options %}
+	<a class="d-btn" href="{% url 'results:list' %}">Summary</a>
+	<a class="d-btn" href="{% url 'playground:list' %}">Playground</a>
+{% endblock %}
+
+{% block dashboard-about %}
+	<div class="about">
+		<div class="grid">
+			<img src="{% static 'icons8/categorize.svg' %}">
+			<div class="content">
+				<h2 class="heading">About Playground</h2>
+				<h3 class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h3>
+			</div>
+		</div>
+		<button onclick="window.location.href='{% url 'docs:playground' %}'">Learn More</button>
+	</div>
+{% endblock %}
+
+{% block dashboard-widgets %}
+	<script>
+		document.querySelectorAll("a[href='/dashboard/results/']").forEach(function(item) {
+			item.classList.add("active-link");
+		});
+	</script>
+
+
+	<div class="widget-row">
+		<a class="d-btn d-btn-primary-fill create" href="{% url 'playground:create' %}?backlink={{ request.path }}"><span>Create New</span> {% icon 'plus' %}</a>
+
+		{% if playground_qs %}
+			<div class="table-container">
+				<table cellpadding="0" cellspacing="0" class="playgrounds">
+					<tbody>
+						<tr>
+							<th><h3 class="group-name">Name</h3></th>
+							<th class="column-name">Results</th>
+							<th class="column-name">Created</th>
+							<th class="column-name"></th>
+						</tr>
+						{% for obj in playground_qs %}
+							<tr class="item">
+								<td>{{ obj.name }}</td>
+								<td>{{ obj.get_results|length }}</td>
+								<td>{{ obj.timestamp|date:"d M Y" }}</td>
+								<td>{% if student.recent_playground_id == obj.pk %}<span class="status">Selected</span>{% endif %}</td>
+								<td><a href="{% url 'playground:edit' pk=obj.pk %}?backlink={{ request.path }}">{% icon "edit" width="1.3em" height="1.3em" stroke-width="2.5px" %}</a></td>
+								<td><a href="{% url 'playground:select' pk=obj.pk %}?backlink={{ request.path }}">{% if student.recent_playground_id == obj.pk %}{% icon "check-circle" width="1.3em" height="1.3em" stroke-width="2.5px" %}{% else %}{% icon "circle" width="1.3em" height="1.3em" stroke-width="2.5px" %}{% endif %}</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
